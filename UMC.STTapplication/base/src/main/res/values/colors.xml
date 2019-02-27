@@ -3,4 +3,10 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="homeBackground">#EEEEEE</color>
+    <color name="blueBar">#35C4F2</color>
+    <color name="whiteBackground">#FFFFFF</color>
+    <color name="blueText">#1616BC</color>
+    <color name="blackText">#252525</color>
+    <color name="currentNumber">#51B6F0</color>
 </resources>

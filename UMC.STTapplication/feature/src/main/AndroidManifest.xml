@@ -3,6 +3,7 @@
     package="stt.umc.feature">
 
     <application>
+        <activity android:name=".Home"></activity>
         <activity android:name=".MainActivity">
             <intent-filter android:order="1">
                 <action android:name="android.intent.action.VIEW" />
