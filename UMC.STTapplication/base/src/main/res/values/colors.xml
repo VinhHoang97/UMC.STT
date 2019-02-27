@@ -9,4 +9,5 @@
     <color name="blueText">#1616BC</color>
     <color name="blackText">#252525</color>
     <color name="currentNumber">#51B6F0</color>
+    <color name="greyText">#A5A5A5</color>
 </resources>
