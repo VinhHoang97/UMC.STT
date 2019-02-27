@@ -3,4 +3,9 @@ apply plugin: 'com.android.instantapp'
 dependencies {
     implementation project(':feature')
     implementation project(':base')
+    // barcode reader library
+    implementation 'info.androidhive:barcode-reader:1.1.2'
+
+    // google vision library
+    implementation 'com.google.android.gms:play-services-vision:11.0.2'
 }

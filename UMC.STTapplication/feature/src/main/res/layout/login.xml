@@ -4,25 +4,40 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/gradientbackground"
+    android:background="@drawable/gradient_background"
+    android:theme="@style/AppTheme"
     tools:context=".MainActivity">
+
+
+    <ImageView
+        android:layout_width="224dp"
+        android:layout_height="226dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="67dp"
+        android:src="@drawable/umc_logo" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="236dp"
+        android:layout_marginBottom="193dp"
         android:text="Nhấn để quét mã"
         android:textAlignment="center"
         android:textSize="20dp"
         android:textStyle="bold" />
 
-    <ImageView
-        android:layout_width="224dp"
-        android:layout_height="288dp"
-        android:layout_alignParentTop="true"
+
+
+    <Button
+        android:id="@+id/iconBarcode"
+        android:layout_width="96dp"
+        android:layout_height="85dp"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="51dp"
-        android:src="@drawable/umc_logo" />
+        android:layout_marginBottom="78dp"
+        android:background="@drawable/icons8_barcode_scanner_64" />
+
+
 </RelativeLayout>

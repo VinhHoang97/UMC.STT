@@ -22,4 +22,9 @@ dependencies {
     api 'com.android.support.constraint:constraint-layout:1.1.3'
     application project(':app')
     feature project(':feature')
+    // barcode reader library
+    implementation 'info.androidhive:barcode-reader:1.1.2'
+
+    // google vision library
+    implementation 'com.google.android.gms:play-services-vision:11.0.2'
 }

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ScanActivity">
+
+    <fragment
+        android:id="@+id/barcode_scanner"
+        android:name="info.androidhive.barcode.BarcodeReader"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:auto_focus="true"
+        app:use_flash="false" />
+
+    <info.androidhive.barcode.ScannerOverlay
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#44000000"
+        app:line_color="#7323DC"
+        app:line_speed="6"
+        app:line_width="4"
+        app:square_height="200"
+        app:square_width="300" />
+
+    <TextView
+        android:layout_width="160dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="115dp"
+        android:maxLines="2"
+        android:singleLine="false"
+        android:text="Di chuyểm camera đến vùng chứa mã để quét"
+        android:textAlignment="center"
+        android:textSize="15dp"
+        tools:layout_editor_absoluteX="112dp"
+        tools:layout_editor_absoluteY="420dp" />
+
+    <Button
+        android:id="@+id/btnStorage"
+        android:layout_width="237dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="11dp"
+        android:background="@drawable/curve_shape"
+        android:text="Thư viện ảnh"
+        android:textAllCaps="false" />
+
+
+</RelativeLayout>
