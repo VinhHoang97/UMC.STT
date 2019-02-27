@@ -8,13 +8,21 @@
     tools:context=".MainActivity">
 
     <TextView
-        android:layout_width="153dp"
-        android:layout_height="46dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="227dp"
+        android:layout_marginBottom="236dp"
         android:text="Nhấn để quét mã"
         android:textAlignment="center"
-        android:textSize="20dp" />
+        android:textSize="20dp"
+        android:textStyle="bold" />
 
+    <ImageView
+        android:layout_width="224dp"
+        android:layout_height="288dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="51dp"
+        android:src="@drawable/umc_logo" />
 </RelativeLayout>
