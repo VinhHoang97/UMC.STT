@@ -7,10 +7,10 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application>
-        <activity android:name=".ScanOtherPatient"></activity>
+        <activity android:name=".Home"></activity>
+ 		<activity android:name=".ScanOtherPatient"></activity>
         <activity android:name=".Home" />
-        <activity android:name=".LoginActivity">
-            <intent-filter android:order="1">
+        <activity android:name=".LoginActivity">		<activity android:name=".UserProfile"></activity>            <intent-filter android:order="1">
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.BROWSABLE" />
