@@ -18,7 +18,6 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
-
         findViewById(R.id.iconBarcode).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -28,7 +28,6 @@ public class ScanActivity extends AppCompatActivity implements BarcodeReader.Bar
     @Override
     public void onScanned(Barcode barcode) {
         barcodeReader.playBeep();
-
         startActivity(new Intent(ScanActivity.this, Home.class));
     }
 

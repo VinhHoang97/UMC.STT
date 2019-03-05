@@ -6,13 +6,19 @@
     android:layout_height="match_parent"
     tools:context=".ScanOtherPatient">
 
+    <include layout="@layout/header"></include>
+
+
+
     <fragment
+        android:layout_below="@+id/header"
         android:id="@+id/barcode_scanner_2"
         android:name="info.androidhive.barcode.BarcodeReader"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:auto_focus="true"
-        app:use_flash="false" />
+        app:use_flash="false"
+        android:layout_above="@+id/footer"/>
 
     <info.androidhive.barcode.ScannerOverlay
         android:layout_width="match_parent"
@@ -25,7 +31,7 @@
         app:square_width="300" />
 
     <TextView
-        android:layout_width="160dp"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
@@ -34,9 +40,35 @@
         android:singleLine="false"
         android:text="Di chuyểm camera đến vùng chứa mã để quét"
         android:textAlignment="center"
-        android:textSize="15dp"
+        android:textSize="20dp"
         tools:layout_editor_absoluteX="112dp"
         tools:layout_editor_absoluteY="420dp" />
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/header"
+        android:layout_alignEnd="@+id/barcode_scanner_2"
+        android:layout_gravity="right"
+        android:layout_marginEnd="0dp"
+        android:orientation="vertical">
+
+        <ImageButton
+            android:id="@+id/imgBtnHistory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/header"
+            android:src="@drawable/icons8_time_machine" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Lịch sử"
+            android:textAlignment="center" />
+
+    </LinearLayout>
+
+    <include layout="@layout/footer"></include>
 
 </RelativeLayout>
