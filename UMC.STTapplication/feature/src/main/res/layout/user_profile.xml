@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".UserProfile"
+    android:background="@color/homeBackground"
+    android:orientation="vertical">
+    <include layout="@layout/header"></include>
+    <LinearLayout
+        android:id="@+id/profileContent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@+id/header"
+        android:background="@drawable/shadow">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_margin="10dp"
+            android:weightSum="2"
+            android:background="@drawable/bluebottomborder"
+            >
+            <TextView
+                android:padding="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Họ và tên"
+                android:textAlignment="textStart"
+                android:textSize="25sp"
+                android:layout_weight="1"
+                android:textColor="@color/blueText2"
+                />
+            <TextView
+                android:padding="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Lê Văn Sâm"
+                android:textAlignment="textEnd"
+                android:textSize="25sp"
+                android:layout_weight="1"
+                android:textColor="@color/blackText"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_margin="10dp"
+            android:weightSum="2"
+            android:background="@drawable/bluebottomborder"
+
+            >
+            <TextView
+                android:padding="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ngày sinh"
+                android:textAlignment="textStart"
+                android:layout_weight="1"
+                android:textSize="25sp"
+
+                android:textColor="@color/blueText2"
+                />
+            <TextView
+                android:padding="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="25/09/1975"
+                android:textAlignment="textEnd"
+                android:textSize="25sp"
+                android:layout_weight="1"
+                android:textColor="@color/blackText"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_margin="10dp"
+            android:weightSum="2"
+            android:background="@drawable/bluebottomborder"
+            >
+            <TextView
+                android:padding="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Giới tính"
+                android:textAlignment="textStart"
+                android:textSize="25sp"
+                android:layout_weight="1"
+                android:textColor="@color/blueText2"
+                />
+            <TextView
+                android:padding="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nam"
+                android:textAlignment="textEnd"
+                android:textSize="25sp"
+                android:layout_weight="1"
+                android:textColor="@color/blackText"
+                />
+        </LinearLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Chọn thời gian nhắc nhở"
+            android:textColor="@color/blueText2"
+            android:textAlignment="center"
+            android:textSize="25sp" />
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="3"
+            android:paddingLeft="20dp">
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:buttonTint="@color/blackText"
+                android:text="5 Phút"
+                android:textColor="@color/blueText2"
+                android:textSize="20sp"
+                android:checked="true"
+                />
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:buttonTint="@color/blackText"
+
+                android:text="15 Phút"
+                android:textColor="@color/blueText2"
+                android:textSize="20sp"
+                android:checked="false"/>
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:buttonTint="@color/blackText"
+                android:text="30 Phút"
+                android:textColor="@color/blueText2"
+                android:textSize="20sp"
+                android:checked="false"
+                />
+        </RadioGroup>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/profileContent"
+        android:text="Đăng xuất"
+        android:layout_marginHorizontal="70dp"
+        android:textSize="20sp"
+        android:background="@drawable/curve_shape"/>
+
+    <include layout="@layout/footer"></include>
+
+</RelativeLayout>
