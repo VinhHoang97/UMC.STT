@@ -2,7 +2,6 @@ package stt.umc.feature;
 
 
 import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.v4.app.ActivityCompat;
@@ -12,7 +11,7 @@ import android.os.Bundle;
 import android.view.View;
 
 
-public class MainActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity {
 
     public  static final int PERMISSIONS_MULTIPLE_REQUEST = 123;
     @Override
@@ -23,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.iconBarcode).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, ScanActivity.class));
+                startActivity(new Intent(LoginActivity.this, ScanActivity.class));
             }
         });
 

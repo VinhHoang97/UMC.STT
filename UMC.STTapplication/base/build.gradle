@@ -23,8 +23,8 @@ dependencies {
     application project(':app')
     feature project(':feature')
     // barcode reader library
-    implementation 'info.androidhive:barcode-reader:1.1.2'
+    api 'info.androidhive:barcode-reader:1.1.2'
 
     // google vision library
-    implementation 'com.google.android.gms:play-services-vision:11.0.2'
+    api 'com.google.android.gms:play-services-vision:11.0.2'
 }

@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ScanActivity">
+    tools:context=".ScanOtherPatient">
 
     <fragment
-        android:id="@+id/barcode_scanner"
+        android:id="@+id/barcode_scanner_2"
         android:name="info.androidhive.barcode.BarcodeReader"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -37,7 +37,6 @@
         android:textSize="15dp"
         tools:layout_editor_absoluteX="112dp"
         tools:layout_editor_absoluteY="420dp" />
-
 
 
 </RelativeLayout>
