@@ -45,7 +45,7 @@ public class CustomHistoryListViewAdapter extends BaseAdapter {
 
         scanTimeTv.setText(scanTime[position]);
         nameVictimTv.setText(nameVictimHistory[position]);
-        oldVictimTv.setText(oldVictimHistory[position].toString());
+        oldVictimTv.setText(oldVictimHistory[position].toString() + " tuổi");
         return convertView;
     }
 }
