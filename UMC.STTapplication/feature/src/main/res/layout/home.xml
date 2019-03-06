@@ -131,12 +131,23 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/homeContent"
+        android:layout_below="@+id/homeGrid"
         android:layout_margin="2dp"
         android:text="Vui lòng đến phòng khám đúng giờ"
         android:textSize="15sp"
         android:textAlignment="center"
         android:textColor="@color/greyText"/>
+    <GridView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/homeGrid"
+        android:layout_below="@+id/homeContent"
+        android:numColumns="2"
+        android:background="@color/homeBackground"
+        android:horizontalSpacing="5dp"
+        android:verticalSpacing="5dp">
+
+    </GridView>
 
     <include
         layout="@layout/footer"/>
