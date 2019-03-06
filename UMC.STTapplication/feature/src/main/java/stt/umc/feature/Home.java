@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.GridView;
 
+import java.util.zip.Inflater;
+
 public class Home extends AppCompatActivity {
 
     private String[] clsRoom ={"201","203"};
@@ -24,7 +26,23 @@ public class Home extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(Home.this, ScanOtherPatient.class));
+
             }
         });
+        findViewById(R.id.homeFooter).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(Home.this, Home.class));
+                finish();
+            }
+        });
+        findViewById(R.id.profileFooter).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(Home.this,UserProfile.class));
+
+            }
+        });
+
     }
 }

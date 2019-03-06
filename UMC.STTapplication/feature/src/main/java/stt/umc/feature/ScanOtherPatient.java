@@ -27,6 +27,33 @@ public class ScanOtherPatient extends AppCompatActivity implements BarcodeReader
                 startActivity(new Intent(ScanOtherPatient.this,SearchingHistoryActivity.class));
             }
         });
+
+        findViewById(R.id.searchFooter).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(ScanOtherPatient.this, ScanOtherPatient.class));
+                finish();
+            }
+        });
+        findViewById(R.id.homeFooter).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(ScanOtherPatient.this, Home.class));
+
+            }
+        });
+        findViewById(R.id.profileFooter).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(ScanOtherPatient.this,UserProfile.class));
+
+            }
+        });
+    }
+
+    @Override
+    public void onBackPressed() {
+        this.finish();
     }
 
     @Override
