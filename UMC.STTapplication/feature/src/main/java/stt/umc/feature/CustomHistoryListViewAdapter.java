@@ -38,7 +38,7 @@ public class CustomHistoryListViewAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater layoutInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        convertView = layoutInflater.inflate(R.layout.listviewhistory,null);
+        convertView = layoutInflater.inflate(R.layout.listviewhistory_item,null);
         TextView scanTimeTv = convertView.findViewById(R.id.scanTime);
         TextView nameVictimTv = convertView.findViewById(R.id.nameVictimHistory);
         TextView oldVictimTv = convertView.findViewById(R.id.oldVictimHistory);
