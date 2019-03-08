@@ -51,6 +51,7 @@ public class ScanOtherPatient extends AppCompatActivity implements BarcodeReader
         });
     }
 
+
     @Override
     public void onBackPressed() {
         this.finish();

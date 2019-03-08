@@ -7,9 +7,6 @@
     tools:context=".ScanOtherPatient">
 
     <include layout="@layout/header"></include>
-
-
-
     <fragment
         android:layout_below="@+id/header"
         android:id="@+id/barcode_scanner_2"
@@ -27,7 +24,7 @@
         app:line_color="#7323DC"
         app:line_speed="6"
         app:line_width="4"
-        app:square_height="200"
+        app:square_height="300"
         app:square_width="300" />
 
     <TextView

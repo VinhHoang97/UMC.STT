@@ -3,6 +3,7 @@ package stt.umc.feature;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -13,7 +14,21 @@ import android.view.View;
 
 public class LoginActivity extends AppCompatActivity {
 
+    public static final int ALREADY_LOGIN = 001;
+    public static final int NOT_LOGIN = 000;
+    SharedPreferences sharedPreferences;
+
     public  static final int PERMISSIONS_MULTIPLE_REQUEST = 123;
+
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        sharedPreferences = getSharedPreferences("LOGIN_STATE",MODE_PRIVATE);
+        if(sharedPreferences.getInt("LOGIN_STATE",0)==ALREADY_LOGIN){
+            startActivity(new Intent(LoginActivity.this, Home.class));
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,6 +39,7 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(new Intent(LoginActivity.this, ScanActivity.class));
             }
         });
+
         if ((ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)!= PackageManager.PERMISSION_GRANTED) &&
         (ContextCompat.checkSelfPermission(this,Manifest.permission.READ_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED)) {
 
@@ -48,7 +64,10 @@ public class LoginActivity extends AppCompatActivity {
         } else {
             // Permission has already been granted
         }
-
+        sharedPreferences = getSharedPreferences("LOGIN_STATE",MODE_PRIVATE);
+        if(sharedPreferences.getInt("LOGIN_STATE",0)==ALREADY_LOGIN){
+            startActivity(new Intent(LoginActivity.this, Home.class));
+        }
     }
     @Override
     public void onRequestPermissionsResult(int requestCode,

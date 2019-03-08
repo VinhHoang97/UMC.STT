@@ -13,7 +13,8 @@ import android.widget.Toast;
 public class UserProfile extends AppCompatActivity {
     public static final String MyPREFERENCES = "MyPrefs";
     public static final String BUTTON_STATE = "Button_State";
-
+    public static final int ALREADY_LOGIN = 001;
+    public static final int NOT_LOGIN = 000;
     RadioGroup radioGroupTime;
     RadioButton radioBtn5, radioBtn15, radioBtn30;
     SharedPreferences sharedpreferences;
@@ -72,6 +73,17 @@ public class UserProfile extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(UserProfile.this,UserProfile.class));
+                finish();
+            }
+        });
+
+        findViewById(R.id.btnLogout).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SharedPreferences sharedPreferences = getSharedPreferences("LOGIN_STATE",MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putInt("LOGIN_STATE",NOT_LOGIN);
+                startActivity(new Intent(getApplicationContext(),LoginActivity.class));
                 finish();
             }
         });
