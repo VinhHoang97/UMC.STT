@@ -34,6 +34,7 @@ public class ScanActivity extends AppCompatActivity implements BarcodeReader.Bar
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putInt("LOGIN_STATE",ALREADY_LOGIN);
         startActivity(new Intent(ScanActivity.this, Home.class));
+        finish();
     }
 
     @Override
