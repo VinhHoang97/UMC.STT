@@ -22,16 +22,20 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onPostResume() {
-        super.onPostResume();
         sharedPreferences = getSharedPreferences("LOGIN_STATE",MODE_PRIVATE);
         if(sharedPreferences.getInt("LOGIN_STATE",0)==ALREADY_LOGIN){
             startActivity(new Intent(LoginActivity.this, Home.class));
         }
+        super.onPostResume();
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        sharedPreferences = getSharedPreferences("LOGIN_STATE",MODE_PRIVATE);
+        if(sharedPreferences.getInt("LOGIN_STATE",0)==ALREADY_LOGIN){
+            startActivity(new Intent(LoginActivity.this, Home.class));
+        }
         setContentView(R.layout.login);
         findViewById(R.id.iconBarcode).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,10 +68,7 @@ public class LoginActivity extends AppCompatActivity {
         } else {
             // Permission has already been granted
         }
-        sharedPreferences = getSharedPreferences("LOGIN_STATE",MODE_PRIVATE);
-        if(sharedPreferences.getInt("LOGIN_STATE",0)==ALREADY_LOGIN){
-            startActivity(new Intent(LoginActivity.this, Home.class));
-        }
+
     }
     @Override
     public void onRequestPermissionsResult(int requestCode,
