@@ -101,5 +101,8 @@ public class Home extends AppCompatActivity implements HomeFragment.OnFragmentIn
 
     }
 
-
+    @Override
+    public void onBackPressed() {
+        getApplication().onTerminate();
+    }
 }
