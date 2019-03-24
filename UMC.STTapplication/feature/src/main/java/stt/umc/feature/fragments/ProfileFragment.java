@@ -8,13 +8,12 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.GridView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Toast;
 
-import stt.umc.feature.CustomCLSGridViewAdapter;
 import stt.umc.feature.R;
+import stt.umc.feature.Utils.GlobalUtils;
+import stt.umc.feature.interfaces.DialogCallback;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -82,38 +81,38 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_profile, container, false);
-        radioGroupTime = (RadioGroup)view.findViewById(R.id.radioGrTime);
+        /*radioGroupTime = (RadioGroup)view.findViewById(R.id.radioGrTime);
         radioBtn5 = (RadioButton)view.findViewById(R.id.radioBtn5);
         radioBtn15 = (RadioButton)view.findViewById(R.id.radioBtn15);
-        radioBtn30 = (RadioButton)view.findViewById(R.id.radioBtn30);
+        radioBtn30 = (RadioButton)view.findViewById(R.id.radioBtn30);*/
         // helper method to open up the file.
         sharedpreferences = getActivity().getSharedPreferences(MyPREFERENCES, MODE_PRIVATE);
         // grab the last saved state here on each activity start
 
 
-        radioGroupTime.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+        /*radioGroupTime.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 int checkedRadioBtn = group.getCheckedRadioButtonId();
                 SharedPreferences.Editor editor = sharedpreferences.edit();
-                if (checkedRadioBtn == R.id.radioBtn5){
+                *//*if (checkedRadioBtn == R.id.radioBtn5){
                     Toast.makeText(view.getContext(), "Hiện thông báo trước khi khám 5 phút", Toast.LENGTH_LONG).show();
                 } else if(checkedRadioBtn == R.id.radioBtn15){
                     Toast.makeText(view.getContext(), "Hiện thông báo trước khi khám 15 phút", Toast.LENGTH_LONG).show();
                 } else if(checkedRadioBtn == R.id.radioBtn30){
                     Toast.makeText(view.getContext(), "Hiện thông báo trước khi khám 30 phút", Toast.LENGTH_LONG).show();
-                }
+                }*//*
                 editor.putInt(BUTTON_STATE,checkedRadioBtn);
                 editor.apply();
             }
-        });
-        if(sharedpreferences.getInt(BUTTON_STATE,0) == R.id.radioBtn5){
+        });*/
+        /*if(sharedpreferences.getInt(BUTTON_STATE,0) == R.id.radioBtn5){
             radioBtn5.setChecked(true);
         } else if(sharedpreferences.getInt(BUTTON_STATE,0) == R.id.radioBtn15) {
             radioBtn15.setChecked(true);
         } else if(sharedpreferences.getInt(BUTTON_STATE,0) == R.id.radioBtn30) {
             radioBtn30.setChecked(true);
-        }
+        }*/
 
         //Button logout
         view.findViewById(R.id.btnLogout).setOnClickListener(new View.OnClickListener() {
@@ -122,7 +121,13 @@ public class ProfileFragment extends Fragment {
                 SharedPreferences sharedPreferences = getActivity().getSharedPreferences("LOGIN_STATE",MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putInt("LOGIN_STATE",NOT_LOGIN);
-                getActivity().finish();
+                GlobalUtils.showRatingDialog(v.getContext(), new DialogCallback() {
+                    @Override
+                    public void callback(int rating) {
+
+                    }
+                });
+                //getActivity().finish();
             }
         });
         // Inflate the layout for this fragment

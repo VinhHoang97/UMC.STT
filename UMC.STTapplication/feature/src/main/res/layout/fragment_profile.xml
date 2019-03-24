@@ -129,65 +129,30 @@
                     android:textColor="@color/blackText"
                     />
             </LinearLayout>
-            <TextView
+            <Button
+                android:id="@+id/btnDatLich"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:text="Chọn thời gian nhắc nhở"
-                android:textColor="@color/blueText2"
+                android:layout_below="@id/profileContent"
+                android:text="Đặt lịch khám ngay"
                 android:textAlignment="center"
-                android:textSize="25sp" />
-            <RadioGroup
-                android:id="@+id/radioGrTime"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:weightSum="3"
-                android:paddingLeft="20dp">
-                <RadioButton
-                    android:id="@+id/radioBtn5"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:buttonTint="@color/blackText"
-                    android:text="5 Phút"
-                    android:textColor="@color/blueText2"
-                    android:textSize="20sp"
-                    android:checked="false"
-                    />
-                <RadioButton
-                    android:id="@+id/radioBtn15"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:buttonTint="@color/blackText"
-                    android:text="15 Phút"
-                    android:textColor="@color/blueText2"
-                    android:textSize="20sp"
-                    android:checked="false"/>
-                <RadioButton
-                    android:id="@+id/radioBtn30"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:buttonTint="@color/blackText"
-                    android:text="30 Phút"
-                    android:textColor="@color/blueText2"
-                    android:textSize="20sp"
-                    android:checked="false"
-                    />
-            </RadioGroup>
+                android:layout_marginHorizontal="70dp"
+                android:textSize="23sp"
+                android:layout_marginBottom="15dp"
+                android:background="@drawable/curve_shapre_green"/>
         </LinearLayout>
 
         <Button
             android:id="@+id/btnLogout"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/profileContent"
+            android:layout_marginTop="2dp"
+            android:paddingHorizontal="20dp"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/curve_shape"
             android:text="Đăng xuất"
-            android:layout_marginHorizontal="70dp"
-            android:textSize="20sp"
-            android:background="@drawable/curve_shape"/>
+            android:textSize="20sp" />
     </RelativeLayout>
 
 </FrameLayout>

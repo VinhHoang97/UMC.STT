@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
 
-import stt.umc.feature.CustomCLSGridViewAdapter;
+import stt.umc.feature.CustomView.CustomCLSGridViewAdapter;
 import stt.umc.feature.R;
 
 /**
