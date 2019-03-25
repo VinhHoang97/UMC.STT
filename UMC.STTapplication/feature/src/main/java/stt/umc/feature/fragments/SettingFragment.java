@@ -1,14 +1,21 @@
 package stt.umc.feature.fragments;
 
 import android.content.Context;
+import android.database.Cursor;
+import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.NotificationCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.RadioButton;
 import android.widget.Spinner;
+
+import java.util.HashMap;
 
 import stt.umc.feature.R;
 
@@ -69,6 +76,7 @@ public class SettingFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_setting, container, false);
+        //Timeout spinner set up
         String arrTimeOut[] = {
                 "10 phút",
                 "30 phút",
@@ -83,7 +91,7 @@ public class SettingFragment extends Fragment {
                 (android.R.layout.simple_list_item_single_choice);
         Spinner timeOutSpinner = view.findViewById(R.id.timeOutSpinner);
         timeOutSpinner.setAdapter(adapterTimeOut);
-
+        //Repeat spinner set up
         String repeatArr[] = {
                 "1 lần",
                 "2 lần",
@@ -96,10 +104,43 @@ public class SettingFragment extends Fragment {
                 );
         adapterRepeat.setDropDownViewResource
                 (android.R.layout.simple_list_item_single_choice);
-        Spinner ringToneSpinner = view.findViewById(R.id.ringToneSpinner);
         Spinner repeatSpinner = view.findViewById(R.id.repeatSpinner);
         repeatSpinner.setAdapter(adapterRepeat);
+        //Ring Tone spinner set up
+        ArrayAdapter<String> adapterRingTone = new ArrayAdapter<String>
+                (
+                        getActivity(),
+                        android.R.layout.simple_spinner_item,
+                        (String[])listRingtones().keySet().toArray()
+                );
+        Spinner ringToneSpinner = view.findViewById(R.id.ringToneSpinner);
+        repeatSpinner.setAdapter(adapterRingTone);
+
+        //Radio button set up
+        RadioButton rdtbnNoti = view.findViewById(R.id.rdbtnNotification);
+        if(rdtbnNoti.isChecked()){
+            NotificationCompat.Builder mBuider= new NotificationCompat.Builder(getContext())
+                    .setSmallIcon(R.drawable.umc_logo)
+                    .setContentTitle("Nhắc nhở khám bệnh")
+                    .setContentText("Còn " + timeOutSpinner.getSelectedItem().toString()+" tới giờ khám");;
+        }
+        RadioButton rdtbnVibrate = view.findViewById(R.id.rdbtnVibrate);
+        Vibrator vibrator = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
+        vibrator.vibrate(500);
         return view;
+    }
+
+    public HashMap<String,String> listRingtones() {
+        HashMap<String,String> ringTonesHashmap = new HashMap<>();
+        RingtoneManager manager = new RingtoneManager(getContext());
+        manager.setType(RingtoneManager.TYPE_RINGTONE);
+        Cursor cursor = manager.getCursor();
+        while (cursor.moveToNext()) {
+            String title = cursor.getString(RingtoneManager.TITLE_COLUMN_INDEX);
+            Uri ringtoneURI = manager.getRingtoneUri(cursor.getPosition());
+            ringTonesHashmap.put(title,ringtoneURI.toString());
+        }
+        return ringTonesHashmap;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
