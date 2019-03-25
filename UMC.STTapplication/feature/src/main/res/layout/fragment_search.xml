@@ -62,6 +62,7 @@
             android:maxLines="2"
             android:singleLine="false"
             android:text="Di chuyển camera đến vùng chứa mã để quét"
+            android:textColor="@color/whiteBackground"
             android:textAlignment="center"
             android:gravity="center"
             android:textSize="20dp"

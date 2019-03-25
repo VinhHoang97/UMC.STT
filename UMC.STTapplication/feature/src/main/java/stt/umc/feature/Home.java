@@ -20,6 +20,7 @@ import stt.umc.feature.fragments.HistoryFragment;
 import stt.umc.feature.fragments.HomeFragment;
 import stt.umc.feature.fragments.ProfileFragment;
 import stt.umc.feature.fragments.SearchFragment;
+import stt.umc.feature.fragments.SettingFragment;
 
 public class Home extends AppCompatActivity implements HomeFragment.OnFragmentInteractionListener, HistoryFragment.OnFragmentInteractionListener, ProfileFragment.OnFragmentInteractionListener,SearchFragment.OnFragmentInteractionListener , BarcodeReader.BarcodeReaderListener {
 
@@ -60,7 +61,7 @@ public class Home extends AppCompatActivity implements HomeFragment.OnFragmentIn
                 loadFragment(fragment);
                 return true;
             } else if (item.getItemId() == R.id.menu_statistic) {
-                fragment = new HomeFragment();
+                fragment = new SettingFragment();
                 loadFragment(fragment);
                 return true;
             }

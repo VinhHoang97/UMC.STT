@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.SettingFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".Home"
+        android:background="@color/homeBackground"
+        android:orientation="vertical">
+
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_gravity="top"
+            android:background="@color/homeBackground">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:background="@color/blueBar"
+                android:textAlignment="center"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:text="Tùy chỉnh"
+                android:textColor="@color/whiteBackground"
+                />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_below="@+id/header"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="20dp">
+
+            <Spinner
+                android:id="@+id/timeOutSpinner"
+
+                android:layout_width="match_parent"
+                android:layout_height="50dp"/>
+
+            <Spinner
+                android:id="@+id/repeatSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"/>
+
+            <Spinner
+                android:id="@+id/ringToneSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp">
+                <TextView
+                    android:layout_marginLeft="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Rung"
+                    android:textSize="20sp"
+                    android:textColor="#53AEFC"/>
+                <RadioButton
+                    android:id="@+id/rdbtnVibrate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="5dp"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp">
+                <TextView
+                    android:layout_marginLeft="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Hiển thị thanh thông báo "
+                    android:textSize="20sp"
+                    android:textColor="#53AEFC"/>
+                <RadioButton
+                    android:id="@+id/rdbtnNotification"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="5dp"/>
+            </RelativeLayout>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/curve_shape"
+                android:text="Đặt lại mặc định"
+                android:textSize="18sp"
+                android:textColor="@color/whiteBackground"
+                android:layout_gravity="center"/>
+        </LinearLayout>
+    </RelativeLayout>
+
+</FrameLayout>
