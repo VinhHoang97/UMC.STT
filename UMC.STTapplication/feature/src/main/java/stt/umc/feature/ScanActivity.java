@@ -11,6 +11,14 @@ import android.widget.Toast;
 
 import com.google.android.gms.vision.barcode.Barcode;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.List;
 
 import info.androidhive.barcode.BarcodeReader;
@@ -32,9 +40,38 @@ public class ScanActivity extends AppCompatActivity implements BarcodeReader.Bar
         barcodeReader.playBeep();
         SharedPreferences sharedPreferences = getSharedPreferences("LOGIN_STATE",MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
+        request("");
         editor.putInt("LOGIN_STATE",ALREADY_LOGIN);
         startActivity(new Intent(ScanActivity.this, Home.class));
         finish();
+    }
+
+    //REQUEST FUNCTION
+    private StringBuffer request(String urlString) {
+        // TODO Auto-generated method stub
+
+        StringBuffer chaine = new StringBuffer("");
+        try{
+            URL url = new URL(urlString);
+            HttpURLConnection connection = (HttpURLConnection)url.openConnection();
+            connection.setRequestProperty("User-Agent", "");
+            connection.setRequestMethod("POST");
+            connection.setDoInput(true);
+            connection.connect();
+
+            InputStream inputStream = connection.getInputStream();
+
+            BufferedReader rd = new BufferedReader(new InputStreamReader(inputStream));
+            String line = "";
+            while ((line = rd.readLine()) != null) {
+                chaine.append(line);
+            }
+        }
+        catch (IOException e) {
+            // Writing exception to log
+            e.printStackTrace();
+        }
+        return chaine;
     }
 
     @Override

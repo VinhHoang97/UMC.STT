@@ -18,7 +18,7 @@
         android:icon="@drawable/person"
         android:title="Thông tin"></item>
     <item
-        android:id="@+id/menu_statistic"
-        android:icon="@drawable/barchart"
-        android:title="Thống kê"></item>
+        android:id="@+id/menu_setting"
+        android:icon="@drawable/icons8_settings_50"
+        android:title="Cài đặt"></item>
 </menu>

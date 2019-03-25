@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".Home"
-        android:background="@color/homeBackground"
+        android:background="@color/whiteBackground"
         android:orientation="vertical">
 
         <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -42,35 +42,102 @@
             android:layout_marginTop="5dp"
             android:layout_marginRight="20dp">
 
-            <Spinner
-                android:id="@+id/timeOutSpinner"
 
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"/>
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2"
+                android:background="@drawable/bluebottomborder"
+                >
 
-            <Spinner
-                android:id="@+id/repeatSpinner"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"/>
+                <TextView
+                    android:layout_width="80dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:padding="10dp"
+                    android:paddingRight="0dp"
+                    android:text="Báo Trước"
+                    android:textColor="@color/blueText2"
+                    android:textSize="20sp" />
+                <Spinner
+                    android:layout_marginBottom="2dp"
+                    android:id="@+id/timeOutSpinner"
+                    android:background="@color/whiteBackground"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="right"
+                    android:layout_weight="1"/>
+            </LinearLayout>
 
-            <Spinner
-                android:id="@+id/ringToneSpinner"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"/>
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2"
+                android:background="@drawable/bluebottomborder"
+                >
+                <TextView
+                    android:padding="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Lặp lại"
+
+                    android:textSize="20sp"
+                    android:layout_weight="1"
+                    android:textColor="@color/blueText2"
+                    />
+                <Spinner
+                    android:layout_marginBottom="2dp"
+                    android:id="@+id/repeatSpinner"
+                    android:gravity="right"
+                    android:background="@color/whiteBackground"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2"
+                android:background="@drawable/bluebottomborder"
+                >
+
+                <TextView
+                    android:layout_width="78dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:padding="10dp"
+                    android:text="Nhạc chuông"
+                    android:textColor="@color/blueText2"
+                    android:textSize="20sp" />
+                <Spinner
+                    android:layout_marginBottom="2dp"
+                    android:id="@+id/ringToneSpinner"
+                    android:gravity="right"
+                    android:background="@color/whiteBackground"
+                    android:layout_width="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"/>
+            </LinearLayout>
 
             <RelativeLayout
+                android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="50dp">
                 <TextView
-                    android:layout_marginLeft="5dp"
+                    android:paddingLeft="10dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Rung"
                     android:textSize="20sp"
                     android:textColor="#53AEFC"/>
-                <RadioButton
+                <CheckBox
                     android:id="@+id/rdbtnVibrate"
                     android:layout_width="wrap_content"
+                    android:buttonTint="@color/greyText"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="5dp"/>
@@ -80,16 +147,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp">
                 <TextView
-                    android:layout_marginLeft="5dp"
+                    android:paddingLeft="10dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Hiển thị thanh thông báo "
                     android:textSize="20sp"
                     android:textColor="#53AEFC"/>
-                <RadioButton
+                <CheckBox
                     android:id="@+id/rdbtnNotification"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:buttonTint="@color/greyText"
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="5dp"/>
             </RelativeLayout>

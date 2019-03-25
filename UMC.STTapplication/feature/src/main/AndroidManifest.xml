@@ -7,8 +7,8 @@
     <uses-permission android:name="android.permission.VIBRATE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
-    <application>
-        <activity android:name=".Home" />
+    <application >
+        <activity android:name=".Home"  />
         <activity android:name=".LoginActivity">
             <intent-filter android:order="1">
                 <action android:name="android.intent.action.VIEW" />
@@ -40,6 +40,11 @@
                     android:scheme="https" />
             </intent-filter>
         </activity>
+        <receiver android:name=".MyAlarmReceiver">
+            <intent-filter>
+                <action android:name="com.example.helloandroid.alarms" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

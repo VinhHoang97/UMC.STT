@@ -22,7 +22,7 @@ import stt.umc.feature.fragments.ProfileFragment;
 import stt.umc.feature.fragments.SearchFragment;
 import stt.umc.feature.fragments.SettingFragment;
 
-public class Home extends AppCompatActivity implements HomeFragment.OnFragmentInteractionListener, HistoryFragment.OnFragmentInteractionListener, ProfileFragment.OnFragmentInteractionListener,SearchFragment.OnFragmentInteractionListener , BarcodeReader.BarcodeReaderListener {
+public class Home extends AppCompatActivity implements HomeFragment.OnFragmentInteractionListener, HistoryFragment.OnFragmentInteractionListener, ProfileFragment.OnFragmentInteractionListener,SearchFragment.OnFragmentInteractionListener , BarcodeReader.BarcodeReaderListener, SettingFragment.OnFragmentInteractionListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +60,7 @@ public class Home extends AppCompatActivity implements HomeFragment.OnFragmentIn
                 fragment = new ProfileFragment();
                 loadFragment(fragment);
                 return true;
-            } else if (item.getItemId() == R.id.menu_statistic) {
+            } else if (item.getItemId() == R.id.menu_setting) {
                 fragment = new SettingFragment();
                 loadFragment(fragment);
                 return true;

@@ -1,6 +1,7 @@
 package stt.umc.feature.fragments;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -11,13 +12,20 @@ import android.support.v4.app.NotificationCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import stt.umc.feature.R;
+
+import static android.content.Context.MODE_PRIVATE;
 
 
 /**
@@ -39,6 +47,9 @@ public class SettingFragment extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+
+    SharedPreferences sharedPreferences ;
+
 
     public SettingFragment() {
         // Required empty public constructor
@@ -69,11 +80,14 @@ public class SettingFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        sharedPreferences = this.getActivity().getSharedPreferences("SETTING", Context.MODE_PRIVATE);
+        final SharedPreferences.Editor editor = sharedPreferences.edit();
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_setting, container, false);
         //Timeout spinner set up
@@ -84,13 +98,25 @@ public class SettingFragment extends Fragment {
         ArrayAdapter<String> adapterTimeOut = new ArrayAdapter<String>
                 (
                         getActivity(),
-                        android.R.layout.simple_spinner_item,
+                        R.layout.m_spinner_item,
                         arrTimeOut
                 );
         adapterTimeOut.setDropDownViewResource
-                (android.R.layout.simple_list_item_single_choice);
-        Spinner timeOutSpinner = view.findViewById(R.id.timeOutSpinner);
+                (android.R.layout.simple_spinner_dropdown_item);
+        final Spinner timeOutSpinner = view.findViewById(R.id.timeOutSpinner);
         timeOutSpinner.setAdapter(adapterTimeOut);
+        timeOutSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                editor.putString("time_out", timeOutSpinner.getSelectedItem().toString());
+                editor.commit();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
         //Repeat spinner set up
         String repeatArr[] = {
                 "1 lần",
@@ -99,46 +125,93 @@ public class SettingFragment extends Fragment {
         ArrayAdapter<String> adapterRepeat = new ArrayAdapter<String>
                 (
                         getActivity(),
-                        android.R.layout.simple_spinner_item,
+                        R.layout.m_spinner_item,
                         repeatArr
                 );
         adapterRepeat.setDropDownViewResource
-                (android.R.layout.simple_list_item_single_choice);
-        Spinner repeatSpinner = view.findViewById(R.id.repeatSpinner);
+                (android.R.layout.simple_spinner_dropdown_item);
+        final Spinner repeatSpinner = view.findViewById(R.id.repeatSpinner);
         repeatSpinner.setAdapter(adapterRepeat);
+        repeatSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                editor.putString("repeat", repeatSpinner.getSelectedItem().toString());
+                editor.commit();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        List<String> ringtoneArr =new ArrayList<>();
+        for ( Object item: listRingtones().keySet().toArray()) {
+            ringtoneArr.add(item.toString());
+        }
+
         //Ring Tone spinner set up
         ArrayAdapter<String> adapterRingTone = new ArrayAdapter<String>
                 (
                         getActivity(),
-                        android.R.layout.simple_spinner_item,
-                        (String[])listRingtones().keySet().toArray()
+                        R.layout.m_spinner_item,
+                        ringtoneArr
                 );
-        Spinner ringToneSpinner = view.findViewById(R.id.ringToneSpinner);
-        repeatSpinner.setAdapter(adapterRingTone);
+        adapterRingTone.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        final Spinner ringToneSpinner = view.findViewById(R.id.ringToneSpinner);
+        ringToneSpinner.setAdapter(adapterRingTone);
+        ringToneSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                editor.putString("ring_tone", ringToneSpinner.getSelectedItem().toString());
+                editor.commit();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         //Radio button set up
-        RadioButton rdtbnNoti = view.findViewById(R.id.rdbtnNotification);
+        CheckBox rdtbnNoti = view.findViewById(R.id.rdbtnNotification);
         if(rdtbnNoti.isChecked()){
-            NotificationCompat.Builder mBuider= new NotificationCompat.Builder(getContext())
-                    .setSmallIcon(R.drawable.umc_logo)
-                    .setContentTitle("Nhắc nhở khám bệnh")
-                    .setContentText("Còn " + timeOutSpinner.getSelectedItem().toString()+" tới giờ khám");;
+            editor.putBoolean("notification",true);
+            editor.commit();
         }
-        RadioButton rdtbnVibrate = view.findViewById(R.id.rdbtnVibrate);
-        Vibrator vibrator = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
-        vibrator.vibrate(500);
+        rdtbnNoti.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                editor.putBoolean("notification",isChecked);
+                editor.commit();
+            }
+        });
+
+        CheckBox rdbtnVibrate = view.findViewById(R.id.rdbtnVibrate);
+        if(rdbtnVibrate.isChecked()){
+            editor.putBoolean("vibrate",true);
+            editor.commit();
+        }
+        rdbtnVibrate.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                editor.putBoolean("vibrate",isChecked);
+                editor.commit();
+            }
+        });
         return view;
     }
 
-    public HashMap<String,String> listRingtones() {
-        HashMap<String,String> ringTonesHashmap = new HashMap<>();
+    public HashMap<String, String> listRingtones() {
+        HashMap<String, String> ringTonesHashmap = new HashMap<>();
         RingtoneManager manager = new RingtoneManager(getContext());
         manager.setType(RingtoneManager.TYPE_RINGTONE);
         Cursor cursor = manager.getCursor();
         while (cursor.moveToNext()) {
             String title = cursor.getString(RingtoneManager.TITLE_COLUMN_INDEX);
             Uri ringtoneURI = manager.getRingtoneUri(cursor.getPosition());
-            ringTonesHashmap.put(title,ringtoneURI.toString());
+            ringTonesHashmap.put(title, ringtoneURI.toString());
         }
         return ringTonesHashmap;
     }

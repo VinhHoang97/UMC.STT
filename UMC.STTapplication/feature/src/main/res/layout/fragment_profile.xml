@@ -108,16 +108,16 @@
                 android:weightSum="2"
                 android:background="@drawable/bluebottomborder"
                 >
+
                 <TextView
-                    android:padding="10dp"
-                    android:layout_width="wrap_content"
+                    android:layout_width="49dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:padding="10dp"
                     android:text="Giới tính"
                     android:textAlignment="textStart"
-                    android:textSize="25sp"
-                    android:layout_weight="1"
                     android:textColor="@color/blueText2"
-                    />
+                    android:textSize="25sp" />
                 <TextView
                     android:padding="10dp"
                     android:layout_width="wrap_content"
