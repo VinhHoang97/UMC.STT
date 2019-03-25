@@ -1,4 +1,4 @@
-package stt.umc.feature;
+package stt.umc.feature.CustomView;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -6,6 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+
+import stt.umc.feature.R;
 
 public class CustomHistoryListViewAdapter extends BaseAdapter {
     private Context context;
