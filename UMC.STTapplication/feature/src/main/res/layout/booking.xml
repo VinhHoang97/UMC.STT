@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- TODO: Update blank fragment layout -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/homeBackground">
+
+            <TextView
+                android:id="@+id/abc"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:background="@color/blueBar"
+                android:gravity="center"
+                android:text="Đặt lịch khám"
+                android:textAlignment="center"
+                android:textColor="@color/whiteBackground"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+<LinearLayout
+    android:id="@+id/abc1"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_below="@+id/abc"
+    android:padding="10dp">
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="50sp"
+            android:layout_height="50sp"
+            android:layout_below="@+id/abc"
+            android:layout_marginTop="7dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            app:srcCompat="@drawable/hinhBN"  />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="Lê Văn Sâm"/>
+</LinearLayout>
+      <LinearLayout
+          android:id="@+id/abc2"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:orientation="vertical"
+          android:layout_below="@id/abc1"
+          android:background="@color/whiteBackground">
+          <LinearLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="horizontal"
+              android:padding="5dp">
+              <ImageView
+                  android:layout_width="50sp"
+                  android:layout_height="50sp"
+                  android:layout_marginTop="7dp"
+                  app:srcCompat="@drawable/chonChuyenKhoa"/>
+                  <Spinner
+                      android:id="@+id/static_spinner"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:layout_marginBottom="20dp"
+                      android:layout_marginTop="20dp"
+                      style="@android:style/Widget.Holo.Light.Spinner"
+                      />
+
+                  <Spinner
+                      android:id="@+id/dynamic_spinner"
+                      android:layout_width="fill_parent"
+                      android:layout_height="wrap_content" />
+          </LinearLayout>
+          <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:orientation="horizontal"
+              android:padding="5dp">
+          <ImageView
+              android:layout_width="50sp"
+              android:layout_height="50sp"
+              android:layout_marginTop="7dp"
+              app:srcCompat="@drawable/chonngaykham"/>
+          <Spinner
+              android:id="@+id/static_spinner1"
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginBottom="20dp"
+              android:layout_marginTop="20dp"
+              style="@android:style/Widget.Holo.Light.Spinner"/>
+
+          <Spinner
+              android:id="@+id/dynamic_spinner1"
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content" />
+
+      </LinearLayout>
+          <LinearLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="horizontal"
+              android:padding="5dp">
+              <ImageView
+                  android:layout_width="50sp"
+                  android:layout_height="50sp"
+                  android:layout_marginTop="7dp"
+                  app:srcCompat="@drawable/chonGioKham"/>
+              <Spinner
+                  android:id="@+id/static_spinner2"
+                  android:layout_width="fill_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_marginBottom="20dp"
+                  android:layout_marginTop="20dp"
+                  style="@android:style/Widget.Holo.Light.Spinner"/>
+
+              <Spinner
+                  android:id="@+id/dynamic_spinner2"
+                  android:layout_width="fill_parent"
+                  android:layout_height="wrap_content" />
+
+          </LinearLayout>
+          <LinearLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="horizontal"
+              android:padding="5dp">
+              <ImageView
+                  android:layout_width="50sp"
+                  android:layout_height="50sp"
+                  android:layout_marginTop="7dp"
+                  app:srcCompat="@drawable/PhongKham"/>
+              <Spinner
+                  android:id="@+id/static_spinner3"
+                  android:layout_width="fill_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_marginBottom="20dp"
+                  android:layout_marginTop="20dp"
+                  style="@android:style/Widget.Holo.Light.Spinner"/>
+
+              <Spinner
+                  android:id="@+id/dynamic_spinner3"
+                  android:layout_width="fill_parent"
+                  android:layout_height="wrap_content" />
+
+          </LinearLayout>
+      </LinearLayout>
+        <LinearLayout
+            android:id="@+id/abc3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/abc2"
+            android:orientation="horizontal"
+            android:background="@color/whiteBackground"
+            android:weightSum="3"
+            android:padding="10dp"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/blueBar"
+                android:text="Bảo hiểm y tế"
+                android:textSize="19dp"
+                android:layout_weight="1"
+                />
+            <RadioGroup
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/textView2"
+                android:id="@+id/radioGroup_character"
+                android:orientation="horizontal"
+                android:layout_weight="2"
+                >
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Có"
+                    android:id="@+id/radioButton_co"
+                    android:checked="true"
+                    android:layout_weight="1"
+                     />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Không"
+                    android:id="@+id/radioButton_khong"
+                    android:checked="false"
+                    android:layout_weight="1"
+                    />
+            </RadioGroup>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/abc3"
+            android:gravity="center">
+        <Button
+            android:id="@+id/mybutton_id"
+            android:layout_height="wrap_content"
+            android:layout_width="300dp"
+            android:background="@drawable/curve_shapre_green"
+            android:text="Đặt lịch"
+
+            />
+        </LinearLayout>
+    </RelativeLayout>
+
+</FrameLayout>
