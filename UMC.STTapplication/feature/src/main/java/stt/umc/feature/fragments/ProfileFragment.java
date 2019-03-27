@@ -10,8 +10,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import stt.umc.feature.R;
+import stt.umc.feature.Request.PatientRequest;
 import stt.umc.feature.Utils.GlobalUtils;
 import stt.umc.feature.interfaces.DialogCallback;
 
@@ -81,6 +86,25 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_profile, container, false);
+        Bundle bundle= this.getArguments();
+        String sb= bundle.getString("patient");
+
+        JSONObject json = null;
+        try {
+            json = new JSONObject(sb.substring(1,sb.length()-1));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        PatientRequest patientRequest = new PatientRequest(json);
+        //set profile view
+        TextView tvFullName = view.findViewById(R.id.tvFullName);
+        tvFullName.setText(patientRequest.getLastName()+" " + patientRequest.getMiddleName()+" "+patientRequest.getFirstName());
+        TextView tvBirthday = view.findViewById(R.id.tvBirthday);
+        String birthday[] = patientRequest.getPatientBirthday().substring(0,10).split("-");
+        tvBirthday.setText(birthday[2]+"/"+birthday[1]+"/"+birthday[0]);
+        TextView tvGender = view.findViewById(R.id.tvGender);
+        tvGender.setText(patientRequest.getGender());
+
         /*radioGroupTime = (RadioGroup)view.findViewById(R.id.radioGrTime);
         radioBtn5 = (RadioButton)view.findViewById(R.id.radioBtn5);
         radioBtn15 = (RadioButton)view.findViewById(R.id.radioBtn15);

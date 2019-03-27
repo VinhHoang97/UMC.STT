@@ -9,8 +9,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import stt.umc.feature.CustomView.CustomCLSGridViewAdapter;
 import stt.umc.feature.R;
+import stt.umc.feature.Request.PatientRequest;
 
 /**
  * A simple {@link Fragment} subclass.

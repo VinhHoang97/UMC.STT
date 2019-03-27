@@ -1,5 +1,6 @@
 package stt.umc.feature;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -16,18 +17,20 @@ import com.google.android.gms.vision.barcode.Barcode;
 import java.util.List;
 
 import info.androidhive.barcode.BarcodeReader;
+import stt.umc.feature.Request.PatientRequest;
 import stt.umc.feature.fragments.HistoryFragment;
 import stt.umc.feature.fragments.HomeFragment;
 import stt.umc.feature.fragments.ProfileFragment;
 import stt.umc.feature.fragments.SearchFragment;
 import stt.umc.feature.fragments.SettingFragment;
 
-public class Home extends AppCompatActivity implements HomeFragment.OnFragmentInteractionListener, HistoryFragment.OnFragmentInteractionListener, ProfileFragment.OnFragmentInteractionListener,SearchFragment.OnFragmentInteractionListener , BarcodeReader.BarcodeReaderListener, SettingFragment.OnFragmentInteractionListener {
+public class Home extends AppCompatActivity implements HomeFragment.OnFragmentInteractionListener, HistoryFragment.OnFragmentInteractionListener, ProfileFragment.OnFragmentInteractionListener, SearchFragment.OnFragmentInteractionListener, BarcodeReader.BarcodeReaderListener, SettingFragment.OnFragmentInteractionListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.bottom_navigation_view);
+
 
         //Load bottom navigation
         BottomNavigationView bottomNavigationView = findViewById(R.id.navigation);
@@ -45,6 +48,7 @@ public class Home extends AppCompatActivity implements HomeFragment.OnFragmentIn
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             Fragment fragment;
             if (item.getItemId() == R.id.menu_home) {
+                // set Fragmentclass Argument
                 fragment = new HomeFragment();
                 loadFragment(fragment);
                 return true;
@@ -57,7 +61,12 @@ public class Home extends AppCompatActivity implements HomeFragment.OnFragmentIn
                 loadFragment(fragment);
                 return true;
             } else if (item.getItemId() == R.id.menu_profile) {
+                //passing profile
+                Bundle bundle = new Bundle();
+                String sb = getIntent().getStringExtra("patient");
+                bundle.putString("patient", sb);
                 fragment = new ProfileFragment();
+                fragment.setArguments(bundle);
                 loadFragment(fragment);
                 return true;
             } else if (item.getItemId() == R.id.menu_setting) {
