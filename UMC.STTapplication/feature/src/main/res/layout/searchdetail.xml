@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/homeBackground"
+        android:orientation="vertical">
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_gravity="top"
+            android:background="@color/homeBackground">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:background="@color/blueBar"
+                android:textAlignment="center"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:text="Bệnh nhân khác"
+                android:textColor="@color/whiteBackground"
+                />
+        </RelativeLayout>
+        <LinearLayout
+            android:id="@+id/abc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/header"
+            android:background="@color/whiteBackground"
+            android:orientation="vertical"
+           >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Bệnh nhân"
+                android:layout_marginLeft="10dp"
+                android:textColor="@color/blueBar" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="4">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Huỳnh Thị Lưu"
+                android:layout_marginLeft="10dp"
+                android:textSize="20dp"
+                android:layout_weight="3"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="45 tuổi"
+                android:textSize="20dp"
+                android:layout_weight="1"
+                />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/greyText"
+                    android:layout_marginLeft="10dp"
+                    android:textSize="13dp"
+                    android:text="đang có "/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/blackText"
+                    android:textSize="13dp"
+                    android:text="3"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/greyText"
+                    android:textSize="13dp"
+                    android:text=" cuộc hẹn"/>
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/abc2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="5dp"
+            android:layout_below="@+id/abc"
+            android:background="@drawable/shadow">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="center"
+                        android:text="Phòng khám"
+                        android:textColor="@color/blueText"
+                        android:textSize="30sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/idPhongKham"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/blackText"
+                        android:textSize="30sp"
+                        android:textAlignment="center"
+                        android:textStyle="bold"
+                        android:gravity="center"
+                        android:text="102" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:weightSum="2">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textAlignment="center"
+                        android:text="Thời gian dự kiến"
+                        android:padding="5dp"
+                        android:textColor="@color/blueText"
+                        android:textSize="25sp"
+                        android:textStyle="bold"
+                        android:layout_weight="1"
+                        android:gravity="bottom"
+                        />
+
+                    <TextView
+                        android:id="@+id/idThoiGianDuKien"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="10:30"
+                        android:textColor="@color/blackText"
+                        android:textSize="30sp"
+                        android:textStyle="bold"
+                        android:textAlignment="center"
+                        android:gravity="center"
+                        android:layout_weight="1"
+                        />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:text="Số hiện tại"
+                    android:textColor="@color/blackText"
+                    android:textSize="20dp"
+                    android:textStyle="bold"/>
+                <TextView
+                    android:id="@+id/currentNumber"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:text="2000"
+                    android:textColor="@color/currentNumber"
+                    android:textSize="45dp"
+                    android:textStyle="bold"/>
+                <LinearLayout
+                    android:layout_margin="5dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:background="@drawable/blueborder">
+                    <TextView
+                        android:paddingTop="2dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Số của bạn"
+                        android:textColor="@color/blackText"
+                        android:textSize="20dp"
+                        android:textStyle="bold"
+                        android:textAlignment="center" />
+                    <TextView
+                        android:id="@+id/yourNumber"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="2014"
+                        android:textColor="@color/blueText"
+                        android:textSize="50dp"
+                        android:textStyle="bold"
+                        android:textAlignment="center"/>
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <GridView
+            android:id="@+id/homeGrid"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/abc2"
+            android:layout_marginTop="-1dp"
+            android:background="@color/homeBackground"
+            android:horizontalSpacing="5dp"
+            android:numColumns="2"
+            android:verticalSpacing="5dp">
+
+        </GridView>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/homeGrid"
+            android:layout_margin="2dp"
+            android:text="Vui lòng đến phòng khám đúng giờ"
+            android:textSize="15sp"
+            android:textAlignment="center"
+            android:textColor="@color/greyText"/>
+    </RelativeLayout>
+</FrameLayout>
