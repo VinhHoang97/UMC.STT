@@ -49,7 +49,11 @@ public class Home extends AppCompatActivity implements HomeFragment.OnFragmentIn
             Fragment fragment;
             if (item.getItemId() == R.id.menu_home) {
                 // set Fragmentclass Argument
+                Bundle bundle = new Bundle();
+                String sb = getIntent().getStringExtra("patient");
+                bundle.putString("patient", sb);
                 fragment = new HomeFragment();
+                fragment.setArguments(bundle);
                 loadFragment(fragment);
                 return true;
             } else if (item.getItemId() == R.id.menu_search) {

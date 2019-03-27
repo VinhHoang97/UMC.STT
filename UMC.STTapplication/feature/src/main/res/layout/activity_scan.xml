@@ -39,6 +39,12 @@
         tools:layout_editor_absoluteX="112dp"
         tools:layout_editor_absoluteY="420dp" />
 
-
+    <ProgressBar
+        style="?android:attr/progressBarStyleHorizontal"
+        android:visibility="invisible"
+        android:progressDrawable="@drawable/custom_progressbar"
+        android:id="@+id/pb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
 </RelativeLayout>

@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -76,6 +77,8 @@ public class GlobalUtils {
         //return mPatientRunnable.getPatientRequest();
         return patientRequest;
     }
+
+
 
 
     public static Date stringToDate(String string) {
