@@ -106,8 +106,8 @@ public class HomeFragment extends Fragment {
         PatientRequest patientRequest = new PatientRequest(json);
         //set profile view
         String url = "https://fit-umc-stt.azurewebsites.net/patient/thongtinkhambenh/" + patientRequest.getPatientID();
-        String testUrl = "https://fit-umc-stt.azurewebsites.net/patient/thongtinkhambenh/BN21677";
-        StringBuilder ticketStrBuilder = getTicket(testUrl);
+        //String testUrl = "https://fit-umc-stt.azurewebsites.net/patient/thongtinkhambenh/BN21677";
+        StringBuilder ticketStrBuilder = getTicket(url);
         String ticket = new String(ticketStrBuilder);
         JSONObject jsonTicket = null;
         try {
@@ -134,47 +134,6 @@ public class HomeFragment extends Fragment {
         tvCurrentNumber.setText(cmTicketRequest.getRoomCurrentNumber().toString());
         tvYourNumber.setText(cmTicketRequest.getTicketNumber().toString());
         tvTime.setText(cmTicketRequest.getExpectedTime().substring(11,16));
-//        JSONObject jsonTicketClinical = null;
-//        JSONObject jsonTicketSubclinical[] = null;
-//        int subClinicalLength = 0;
-//        try {
-//            jsonTicketClinical = new JSONObject(convertJSONStringClinical(ticket));
-//            List<String> subClinicalStringArr = convertJSONStringSubclinical(ticket);
-//            subClinicalLength = subClinicalStringArr.size();
-//            //int clinicallength = convertJSONStringSubclinical(ticket).length;
-//            for (int i = 0; i < subClinicalLength; i++) {
-//                jsonTicketSubclinical[i] = new JSONObject(subClinicalStringArr.get(i));
-//            }
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-//        if (jsonTicketClinical != null || jsonTicketSubclinical != null) {
-//            ClinicalMedicalTicketRequest cmTicketRequest = null;
-//            if (jsonTicketClinical != null) {
-//                cmTicketRequest = new ClinicalMedicalTicketRequest(jsonTicketClinical);
-//            }else {  cmTicketRequest =new ClinicalMedicalTicketRequest(null,null,null,null);}
-//            String[] clsRoom = new String[subClinicalLength];
-//            String[] clsName = new String[subClinicalLength];
-//            Integer[] clsCurrentNumber = new Integer[subClinicalLength];
-//            Integer[] clsYourNumber = new Integer[subClinicalLength];
-//            String[] clsTime = new String[subClinicalLength];
-//            SubclinicalMedicalTicketRequest scmTicketRequest[] = new SubclinicalMedicalTicketRequest[subClinicalLength];
-//            for (int i = 0; i < subClinicalLength; i++) {
-//                try {
-//                    scmTicketRequest[i] = new SubclinicalMedicalTicketRequest(jsonTicketSubclinical[i]);
-//                    clsRoom[i] = scmTicketRequest[i].getRoomID();
-//                    clsYourNumber[i] = scmTicketRequest[i].getTicketNumber();
-//                    clsCurrentNumber[i] = scmTicketRequest[i].getRoomCurrentNumber();
-//                    clsTime[i] = scmTicketRequest[i].getExpectedTime();
-//                    clsName[i] = scmTicketRequest[i].getFunctionalName();
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//            tvPhongKham.setText(cmTicketRequest.getRoomID());
-//            tvCurrentNumber.setText(cmTicketRequest.getRoomCurrentNumber());
-//            tvYourNumber.setText(cmTicketRequest.getTicketNumber());
-//            tvTime.setText(cmTicketRequest.getExpectedTime());
         CustomCLSGridViewAdapter customCLSGridViewAdapter = new CustomCLSGridViewAdapter(view.getContext(),
                 clsRoom,
                 clsName,
@@ -187,51 +146,6 @@ public class HomeFragment extends Fragment {
         return view;
     }
 
-    public String convertJSONStringClinical(final String mParamString) {
-        final CountDownLatch latchClinical = new CountDownLatch(1);
-        final List<String> transform1_3 = new ArrayList<>();
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                String[] transform1 = mParamString.split("canLamSang");
-                String[] transform1_2 = transform1[0].split("lamSang");
-                transform1_3.add(transform1_2[1].substring(3, transform1_2[1].length() - 3));
-                latchClinical.countDown();
-            }
-        }).start();
-        try {
-            latchClinical.await();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        return transform1_3.get(0);
-    }
-
-    public List<String> convertJSONStringSubclinical(final String mParamString) {
-        final CountDownLatch latchSubclinical = new CountDownLatch(1);
-        final List<String> listStrings = new ArrayList<>();
-        Thread threadSubclinical = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                String[] transform2 = mParamString.split("canLamSang");
-                String transform2_2 = transform2[1].substring(3, transform2[1].length() - 2);
-                String[] transform2_3 = transform2_2.split("},");
-                String[] transform2_4 = new String[transform2_3.length];
-                for (int i = 0; i < transform2_3.length; i++) {
-                    transform2_4[i] = transform2_3[i] + '}';
-                    listStrings.add(transform2_4[i]);
-                }
-                latchSubclinical.countDown();
-            }
-        });
-        threadSubclinical.start();
-        try {
-            latchSubclinical.await();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        return listStrings;
-    }
 
     public static StringBuilder getTicket(final String urlString) {
         //PatientRunnable mPatientRunnable =  new PatientRunnable(urlString);
