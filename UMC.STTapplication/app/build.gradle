@@ -27,6 +27,12 @@ android {
 dependencies {
     implementation project(':feature')
     implementation project(':base')
+    //Retrofit
+    /*implementation "com.squareup.retrofit2:retrofit:$rootProject.2.5.0"
+    implementation("com.squareup.retrofit2:converter-gson:$rootProject.2.5.0") {
+        exclude group: 'com.squareup.retrofit2', module: 'retrofit'
+    }*/
+
     // barcode reader library
     implementation 'info.androidhive:barcode-reader:1.1.2'
 

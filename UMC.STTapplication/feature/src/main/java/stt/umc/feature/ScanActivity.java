@@ -22,32 +22,34 @@ public class ScanActivity extends AppCompatActivity implements BarcodeReader.Bar
     public static final int NOT_LOGIN = 000;
     BarcodeReader barcodeReader;
     ProgressBar progressBar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scan);
         barcodeReader = (BarcodeReader) getSupportFragmentManager().findFragmentById(R.id.barcode_scanner);
-        progressBar  = findViewById(R.id.pb);
+        progressBar = findViewById(R.id.pb);
     }
 
     @Override
     public void onScanned(Barcode barcode) {
-
         barcodeReader.playBeep();
+        StringBuilder patientRequest = null;
         SharedPreferences sharedPreferences = getSharedPreferences("LOGIN_STATE", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        StringBuilder patientRequest = GlobalUtils.getPatientHttpMethod("https://fit-umc-stt.azurewebsites.net/patient/" + barcode.displayValue);
-
-        if (patientRequest != null) {
-            Intent intent = new Intent(ScanActivity.this, Home.class);
-            intent.putExtra("patient", patientRequest.toString());
-            editor.putInt("LOGIN_STATE", ALREADY_LOGIN);
-            startActivity(intent);
-            finish();
-        }else{
-            Looper.prepare();
-            Toast.makeText(this,"ERROR UNABLE TO FOUND THIS PATIENT",Toast.LENGTH_LONG).show();
+        do {
+            patientRequest = GlobalUtils.getPatientHttpMethod("https://fit-umc-stt.azurewebsites.net/patient/" + barcode.displayValue);
+            if (patientRequest != null) {
+                Intent intent = new Intent(ScanActivity.this, Home.class);
+                intent.putExtra("patient", patientRequest.toString());
+                editor.putInt("LOGIN_STATE", ALREADY_LOGIN);
+                startActivity(intent);
+                finish();
+            } else {
+                Toast.makeText(this, "ERROR UNABLE TO FOUND THIS PATIENT", Toast.LENGTH_LONG).show();
+            }
         }
+        while (patientRequest == null);
     }
 
 

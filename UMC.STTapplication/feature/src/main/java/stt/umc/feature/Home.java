@@ -31,6 +31,18 @@ public class Home extends AppCompatActivity implements HomeFragment.OnFragmentIn
         super.onCreate(savedInstanceState);
         setContentView(R.layout.bottom_navigation_view);
 
+        //Load fragment
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Bundle bundle = new Bundle();
+                String sb = getIntent().getStringExtra("patient");
+                bundle.putString("patient", sb);
+                Fragment fragment = new HomeFragment();
+                fragment.setArguments(bundle);
+                loadFragment(fragment);
+            }
+        }).start();
 
         //Load bottom navigation
         BottomNavigationView bottomNavigationView = findViewById(R.id.navigation);
@@ -39,8 +51,7 @@ public class Home extends AppCompatActivity implements HomeFragment.OnFragmentIn
         CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) bottomNavigationView.getLayoutParams();
         layoutParams.setBehavior(new BottomNavigationBehavior());
 
-        //Load fragment
-        loadFragment(new HomeFragment());
+
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener onNavigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -48,13 +59,18 @@ public class Home extends AppCompatActivity implements HomeFragment.OnFragmentIn
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             Fragment fragment;
             if (item.getItemId() == R.id.menu_home) {
-                // set Fragmentclass Argument
-                Bundle bundle = new Bundle();
-                String sb = getIntent().getStringExtra("patient");
-                bundle.putString("patient", sb);
-                fragment = new HomeFragment();
-                fragment.setArguments(bundle);
-                loadFragment(fragment);
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        // set Fragmentclass Argument
+                        Bundle bundle = new Bundle();
+                        String sb = getIntent().getStringExtra("patient");
+                        bundle.putString("patient", sb);
+                        Fragment mfragment = new HomeFragment();
+                        mfragment.setArguments(bundle);
+                        loadFragment(mfragment);
+                    }
+                }).start();
                 return true;
             } else if (item.getItemId() == R.id.menu_search) {
                 fragment = new SearchFragment();

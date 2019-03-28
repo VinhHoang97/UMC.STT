@@ -17,6 +17,7 @@ import java.sql.Date;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.concurrent.CountDownLatch;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -49,32 +50,44 @@ public class GlobalUtils {
         //PatientRunnable mPatientRunnable =  new PatientRunnable(urlString);
         //Thread mThread = new Thread(mPatientRunnable);
         //mThread.start();
-        StringBuilder patientRequest = new StringBuilder();
-        try {
-            URL url = new URL(urlString);
-            HttpsURLConnection mHttpsURLConnection = (HttpsURLConnection) url.openConnection();
-            mHttpsURLConnection.setDoInput(true);
-            mHttpsURLConnection.setRequestMethod("GET");
-            if (mHttpsURLConnection.getResponseCode() == 200) {
-                mHttpsURLConnection.connect();
-                InputStream responseBody = mHttpsURLConnection.getInputStream();
-                BufferedReader rd = new BufferedReader(new InputStreamReader(responseBody));
-                String line;
-                while ((line = rd.readLine()) != null) {
-                    patientRequest.append(line);
+        final CountDownLatch latch = new CountDownLatch(1);
+        final StringBuilder patientRequest = new StringBuilder();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    URL url = new URL(urlString);
+                    HttpsURLConnection mHttpsURLConnection = (HttpsURLConnection) url.openConnection();
+                    mHttpsURLConnection.setDoInput(true);
+                    mHttpsURLConnection.setRequestMethod("GET");
+                    if (mHttpsURLConnection.getResponseCode() == 200) {
+                        mHttpsURLConnection.connect();
+                        InputStream responseBody = mHttpsURLConnection.getInputStream();
+                        BufferedReader rd = new BufferedReader(new InputStreamReader(responseBody));
+                        String line;
+                        while ((line = rd.readLine()) != null) {
+                            patientRequest.append(line);
+                        }
+                        //JSONObject json = new JSONObject(sb.toString().substring(1,sb.length()-1));
+                        //PatientRequest patientRequest = new PatientRequest(json);
+                        mHttpsURLConnection.disconnect();
+                        latch.countDown();
+                    } else {
+                        Log.d("Error ", "");
+                    }
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-                //JSONObject json = new JSONObject(sb.toString().substring(1,sb.length()-1));
-                //PatientRequest patientRequest = new PatientRequest(json);
-                mHttpsURLConnection.disconnect();
-            } else {
-                Log.d("Error ", "");
             }
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        }).start();
+        //return mPatientRunnable.getPatientRequest();
+        try {
+            latch.await();
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        //return mPatientRunnable.getPatientRequest();
         return patientRequest;
     }
 

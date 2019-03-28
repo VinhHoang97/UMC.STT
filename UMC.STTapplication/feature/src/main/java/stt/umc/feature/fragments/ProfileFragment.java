@@ -145,12 +145,12 @@ public class ProfileFragment extends Fragment {
                 SharedPreferences sharedPreferences = getActivity().getSharedPreferences("LOGIN_STATE",MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putInt("LOGIN_STATE",NOT_LOGIN);
-                GlobalUtils.showRatingDialog(v.getContext(), new DialogCallback() {
+                /*GlobalUtils.showRatingDialog(v.getContext(), new DialogCallback() {
                     @Override
                     public void callback(int rating) {
 
                     }
-                });
+                });*/
                 //getActivity().finish();
             }
         });
