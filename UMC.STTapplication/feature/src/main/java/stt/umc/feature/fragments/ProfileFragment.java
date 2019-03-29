@@ -88,7 +88,6 @@ public class ProfileFragment extends Fragment {
         final View view = inflater.inflate(R.layout.fragment_profile, container, false);
         Bundle bundle= this.getArguments();
         String sb= bundle.getString("patient");
-
         JSONObject json = null;
         try {
             json = new JSONObject(sb.substring(1,sb.length()-1));

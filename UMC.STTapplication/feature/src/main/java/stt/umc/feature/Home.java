@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.SparseArray;
@@ -26,23 +27,21 @@ import stt.umc.feature.fragments.SettingFragment;
 
 public class Home extends AppCompatActivity implements HomeFragment.OnFragmentInteractionListener, HistoryFragment.OnFragmentInteractionListener, ProfileFragment.OnFragmentInteractionListener, SearchFragment.OnFragmentInteractionListener, BarcodeReader.BarcodeReaderListener, SettingFragment.OnFragmentInteractionListener {
 
+
+    final Fragment homeFragment = new HomeFragment();
+    final Fragment searchFragment = new SearchFragment();
+    final Fragment historyFragment = new HistoryFragment();
+    final Fragment settingFragment = new SettingFragment();
+    final Fragment profileFragment  = new ProfileFragment();
+    final FragmentManager mFragmentManager = getSupportFragmentManager();
+    Fragment active = homeFragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.bottom_navigation_view);
 
-        //Load fragment
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Bundle bundle = new Bundle();
-                String sb = getIntent().getStringExtra("patient");
-                bundle.putString("patient", sb);
-                Fragment fragment = new HomeFragment();
-                fragment.setArguments(bundle);
-                loadFragment(fragment);
-            }
-        }).start();
+
 
         //Load bottom navigation
         BottomNavigationView bottomNavigationView = findViewById(R.id.navigation);
@@ -52,6 +51,18 @@ public class Home extends AppCompatActivity implements HomeFragment.OnFragmentIn
         layoutParams.setBehavior(new BottomNavigationBehavior());
 
 
+        Bundle bundle = new Bundle();
+        String sb = getIntent().getStringExtra("patient");
+        bundle.putString("patient", sb);
+        homeFragment.setArguments(bundle);
+        profileFragment.setArguments(bundle);
+        mFragmentManager.beginTransaction().add(R.id.frame_container, profileFragment, "5").hide(profileFragment).commit();
+        mFragmentManager.beginTransaction().add(R.id.frame_container, historyFragment, "4").hide(historyFragment).commit();
+        mFragmentManager.beginTransaction().add(R.id.frame_container, settingFragment, "3").hide(settingFragment).commit();
+        mFragmentManager.beginTransaction().add(R.id.frame_container, searchFragment, "2").hide(searchFragment).commit();
+        //set homepage
+
+        mFragmentManager.beginTransaction().add(R.id.frame_container,homeFragment, "1").commit();
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener onNavigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -59,39 +70,24 @@ public class Home extends AppCompatActivity implements HomeFragment.OnFragmentIn
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             Fragment fragment;
             if (item.getItemId() == R.id.menu_home) {
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        // set Fragmentclass Argument
-                        Bundle bundle = new Bundle();
-                        String sb = getIntent().getStringExtra("patient");
-                        bundle.putString("patient", sb);
-                        Fragment mfragment = new HomeFragment();
-                        mfragment.setArguments(bundle);
-                        loadFragment(mfragment);
-                    }
-                }).start();
+                mFragmentManager.beginTransaction().hide(active).show(homeFragment).commit();
+                active = homeFragment;
                 return true;
             } else if (item.getItemId() == R.id.menu_search) {
-                fragment = new SearchFragment();
-                loadFragment(fragment);
+                mFragmentManager.beginTransaction().hide(active).show(searchFragment).commit();
+                active = searchFragment;
                 return true;
             } else if (item.getItemId() == R.id.menu_history) {
-                fragment = new HistoryFragment();
-                loadFragment(fragment);
+                mFragmentManager.beginTransaction().hide(active).show(historyFragment).commit();
+                active = historyFragment;
                 return true;
             } else if (item.getItemId() == R.id.menu_profile) {
-                //passing profile
-                Bundle bundle = new Bundle();
-                String sb = getIntent().getStringExtra("patient");
-                bundle.putString("patient", sb);
-                fragment = new ProfileFragment();
-                fragment.setArguments(bundle);
-                loadFragment(fragment);
+                mFragmentManager.beginTransaction().hide(active).show(profileFragment).commit();
+                active = profileFragment;
                 return true;
             } else if (item.getItemId() == R.id.menu_setting) {
-                fragment = new SettingFragment();
-                loadFragment(fragment);
+                mFragmentManager.beginTransaction().hide(active).show(settingFragment).commit();
+                active = settingFragment;
                 return true;
             }
             return false;
