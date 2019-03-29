@@ -1,6 +1,7 @@
 package stt.umc.feature.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -15,6 +17,7 @@ import android.widget.TextView;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import stt.umc.feature.DatLichKhamActivity;
 import stt.umc.feature.R;
 import stt.umc.feature.Request.PatientRequest;
 import stt.umc.feature.Utils.GlobalUtils;
@@ -103,13 +106,20 @@ public class ProfileFragment extends Fragment {
         tvBirthday.setText(birthday[2]+"/"+birthday[1]+"/"+birthday[0]);
         TextView tvGender = view.findViewById(R.id.tvGender);
         tvGender.setText(patientRequest.getGender());
+        Button button = view.findViewById(R.id.btnDatLich);
+        button.setOnClickListener(new View.OnClickListener() {
+                                      @Override
+                                      public void onClick(View view) {
+                                          startActivity(new Intent(getActivity(), DatLichKhamActivity.class));
+                                      }
+                                  });
 
         /*radioGroupTime = (RadioGroup)view.findViewById(R.id.radioGrTime);
         radioBtn5 = (RadioButton)view.findViewById(R.id.radioBtn5);
         radioBtn15 = (RadioButton)view.findViewById(R.id.radioBtn15);
         radioBtn30 = (RadioButton)view.findViewById(R.id.radioBtn30);*/
-        // helper method to open up the file.
-        sharedpreferences = getActivity().getSharedPreferences(MyPREFERENCES, MODE_PRIVATE);
+                // helper method to open up the file.
+                sharedpreferences = getActivity().getSharedPreferences(MyPREFERENCES, MODE_PRIVATE);
         // grab the last saved state here on each activity start
 
 
