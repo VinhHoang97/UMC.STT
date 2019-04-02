@@ -5,7 +5,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ProgressBar;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -23,7 +22,6 @@ import javax.net.ssl.HttpsURLConnection;
 
 import stt.umc.feature.CustomView.CustomDialogAdapter;
 import stt.umc.feature.R;
-import stt.umc.feature.PatientRunnable;
 import stt.umc.feature.interfaces.DialogCallback;
 
 public class GlobalUtils {
@@ -32,7 +30,7 @@ public class GlobalUtils {
         //create dialog
         final CustomDialogAdapter customDialogAdapter = new CustomDialogAdapter(context, R.style.customRatingDialog);
         LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View v = layoutInflater.inflate(R.layout.ratingdialog, null);
+        View v = layoutInflater.inflate(R.layout.rating_dialog, null);
         customDialogAdapter.setContentView(v);
         Button ratingBtn = (Button) customDialogAdapter.findViewById(R.id.btnRatingDone);
         ratingBtn.setOnClickListener(new View.OnClickListener() {
@@ -91,6 +89,51 @@ public class GlobalUtils {
         return patientRequest;
     }
 
+
+    public static StringBuilder getTicket(final String urlString) {
+        //PatientRunnable mPatientRunnable =  new PatientRunnable(urlString);
+        //Thread mThread = new Thread(mPatientRunnable);
+        //mThread.start();
+        final CountDownLatch latch = new CountDownLatch(1);
+        final StringBuilder roomRequest = new StringBuilder();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    URL url = new URL(urlString);
+                    HttpsURLConnection mHttpsURLConnection = (HttpsURLConnection) url.openConnection();
+                    mHttpsURLConnection.setDoInput(true);
+                    mHttpsURLConnection.setRequestMethod("GET");
+                    if (mHttpsURLConnection.getResponseCode() == 200) {
+                        mHttpsURLConnection.connect();
+                        InputStream responseBody = mHttpsURLConnection.getInputStream();
+                        BufferedReader rd = new BufferedReader(new InputStreamReader(responseBody));
+                        String line;
+                        while ((line = rd.readLine()) != null) {
+                            roomRequest.append(line);
+                        }
+                        //JSONObject json = new JSONObject(sb.toString().substring(1,sb.length()-1));
+                        //PatientRequest patientRequest = new PatientRequest(json);
+                        mHttpsURLConnection.disconnect();
+                        latch.countDown();
+                    } else {
+                        Log.d("Error ", "");
+                    }
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                //return mPatientRunnable.getPatientRequest();
+            }
+        }).start();
+        try {
+            latch.await();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return roomRequest;
+    }
 
 
 

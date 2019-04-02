@@ -35,11 +35,12 @@ public class ScanActivity extends AppCompatActivity implements BarcodeReader.Bar
     public void onScanned(Barcode barcode) {
         barcodeReader.playBeep();
         StringBuilder patientRequest = null;
-        SharedPreferences sharedPreferences = getSharedPreferences("LOGIN_STATE", MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
         do {
             patientRequest = GlobalUtils.getPatientHttpMethod("https://fit-umc-stt.azurewebsites.net/patient/" + barcode.displayValue);
             if (patientRequest != null) {
+                barcodeReader.pauseScanning();
+                SharedPreferences sharedPreferences = getSharedPreferences("LOGIN_STATE", MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
                 Intent intent = new Intent(ScanActivity.this, Home.class);
                 intent.putExtra("patient", patientRequest.toString());
                 editor.putInt("LOGIN_STATE", ALREADY_LOGIN);

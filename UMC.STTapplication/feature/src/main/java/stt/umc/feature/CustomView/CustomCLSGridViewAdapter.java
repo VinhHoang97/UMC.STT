@@ -44,7 +44,7 @@ public class CustomCLSGridViewAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater layoutInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        convertView=layoutInflater.inflate(R.layout.gridviewhome,null);
+        convertView = layoutInflater.inflate(R.layout.gridviewhome,null);
         TextView tvClsName = (TextView)convertView.findViewById(R.id.clsName);
         TextView tvClsRoom = (TextView)convertView.findViewById(R.id.clsRoom);
         TextView tvClsTime = (TextView)convertView.findViewById(R.id.clsTime);

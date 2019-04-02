@@ -8,6 +8,7 @@
         android:layout_height="match_parent"
         android:background="@color/homeBackground"
         android:orientation="vertical">
+
         <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/header"
             android:layout_width="match_parent"
@@ -15,32 +16,32 @@
             android:layout_alignParentTop="true"
             android:layout_gravity="top"
             android:background="@color/homeBackground">
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:background="@color/blueBar"
-                android:textAlignment="center"
-                android:textSize="18sp"
-                android:textStyle="bold"
                 android:gravity="center"
                 android:text="Bệnh nhân khác"
+                android:textAlignment="center"
                 android:textColor="@color/whiteBackground"
-                />
+                android:textSize="18sp"
+                android:textStyle="bold" />
         </RelativeLayout>
+
         <LinearLayout
             android:id="@+id/abc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/header"
             android:background="@color/whiteBackground"
-            android:orientation="vertical"
-           >
+            android:orientation="vertical">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Bệnh nhân"
                 android:layout_marginLeft="10dp"
+                android:text="Bệnh nhân"
                 android:textColor="@color/blueBar" />
 
             <LinearLayout
@@ -49,113 +50,122 @@
                 android:orientation="horizontal"
                 android:weightSum="4">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Huỳnh Thị Lưu"
-                android:layout_marginLeft="10dp"
-                android:textSize="20dp"
-                android:layout_weight="3"
-                />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="45 tuổi"
-                android:textSize="20dp"
-                android:layout_weight="1"
-                />
+                <TextView
+                    android:id="@+id/searchedPatientName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="3"
+                    android:text="Huỳnh Thị Lưu"
+                    android:textSize="20dp" />
+
+                <TextView
+                    android:id="@+id/searchedPatientBirthday"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="45 tuổi"
+                    android:textSize="20dp" />
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/greyText"
                     android:layout_marginLeft="10dp"
-                    android:textSize="13dp"
-                    android:text="đang có "/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/blackText"
-                    android:textSize="13dp"
-                    android:text="3"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:text="đang có "
                     android:textColor="@color/greyText"
-                    android:textSize="13dp"
-                    android:text=" cuộc hẹn"/>
+                    android:textSize="13dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="3"
+                    android:textColor="@color/blackText"
+                    android:textSize="13dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" cuộc hẹn"
+                    android:textColor="@color/greyText"
+                    android:textSize="13dp" />
             </LinearLayout>
         </LinearLayout>
+
         <LinearLayout
             android:id="@+id/abc2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="5dp"
             android:layout_below="@+id/abc"
-            android:background="@drawable/shadow">
+            android:layout_marginTop="5dp"
+            android:background="@drawable/shadow"
+            android:orientation="horizontal">
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textAlignment="center"
                         android:text="Phòng khám"
+                        android:textAlignment="center"
                         android:textColor="@color/blueText"
                         android:textSize="30sp"
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/idPhongKham"
+                        android:id="@+id/searchedPatientRoom"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="102"
+                        android:textAlignment="center"
                         android:textColor="@color/blackText"
                         android:textSize="30sp"
-                        android:textAlignment="center"
-                        android:textStyle="bold"
-                        android:gravity="center"
-                        android:text="102" />
+                        android:textStyle="bold" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
                     android:weightSum="2">
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:textAlignment="center"
-                        android:text="Thời gian dự kiến"
-                        android:padding="5dp"
-                        android:textColor="@color/blueText"
-                        android:textSize="25sp"
-                        android:textStyle="bold"
-                        android:layout_weight="1"
-                        android:gravity="bottom"
-                        />
 
                     <TextView
-                        android:id="@+id/idThoiGianDuKien"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="bottom"
+                        android:padding="5dp"
+                        android:text="Thời gian dự kiến"
+                        android:textAlignment="center"
+                        android:textColor="@color/blueText"
+                        android:textSize="25sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/searchedPatientExpectedTime"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
                         android:text="10:30"
+                        android:textAlignment="center"
                         android:textColor="@color/blackText"
                         android:textSize="30sp"
-                        android:textStyle="bold"
-                        android:textAlignment="center"
-                        android:gravity="center"
-                        android:layout_weight="1"
-                        />
+                        android:textStyle="bold" />
                 </LinearLayout>
 
             </LinearLayout>
@@ -164,47 +174,52 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textAlignment="center"
                     android:text="Số hiện tại"
+                    android:textAlignment="center"
                     android:textColor="@color/blackText"
                     android:textSize="20dp"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold" />
+
                 <TextView
-                    android:id="@+id/currentNumber"
+                    android:id="@+id/searchedPatientCurrNumber"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textAlignment="center"
                     android:text="2000"
+                    android:textAlignment="center"
                     android:textColor="@color/currentNumber"
                     android:textSize="45dp"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold" />
+
                 <LinearLayout
-                    android:layout_margin="5dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:background="@drawable/blueborder">
+                    android:layout_margin="5dp"
+                    android:background="@drawable/blueborder"
+                    android:orientation="vertical">
+
                     <TextView
-                        android:paddingTop="2dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:paddingTop="2dp"
                         android:text="Số của bạn"
+                        android:textAlignment="center"
                         android:textColor="@color/blackText"
                         android:textSize="20dp"
-                        android:textStyle="bold"
-                        android:textAlignment="center" />
+                        android:textStyle="bold" />
+
                     <TextView
-                        android:id="@+id/yourNumber"
+                        android:id="@+id/searchedPatientNumber"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="2014"
+                        android:textAlignment="center"
                         android:textColor="@color/blueText"
                         android:textSize="50dp"
-                        android:textStyle="bold"
-                        android:textAlignment="center"/>
+                        android:textStyle="bold" />
                 </LinearLayout>
 
             </LinearLayout>
@@ -212,7 +227,7 @@
         </LinearLayout>
 
         <GridView
-            android:id="@+id/homeGrid"
+            android:id="@+id/searchPatientGridview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/abc2"
@@ -223,14 +238,15 @@
             android:verticalSpacing="5dp">
 
         </GridView>
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/homeGrid"
             android:layout_margin="2dp"
             android:text="Vui lòng đến phòng khám đúng giờ"
-            android:textSize="15sp"
             android:textAlignment="center"
-            android:textColor="@color/greyText"/>
+            android:textColor="@color/greyText"
+            android:textSize="15sp" />
     </RelativeLayout>
 </FrameLayout>

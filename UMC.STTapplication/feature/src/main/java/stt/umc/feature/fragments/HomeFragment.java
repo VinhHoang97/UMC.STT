@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,7 +22,11 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.ParsePosition;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
@@ -33,6 +38,7 @@ import stt.umc.feature.Request.ClinicalMedicalTicketRequest;
 import stt.umc.feature.Request.PatientRequest;
 import stt.umc.feature.Request.SubclinicalMedicalTicketRequest;
 import stt.umc.feature.Request.TicketInformationRequest;
+import stt.umc.feature.Utils.GlobalUtils;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -99,6 +105,7 @@ public class HomeFragment extends Fragment {
         TextView tvCurrentNumber = view.findViewById(R.id.currentNumber);
         TextView tvTime = view.findViewById(R.id.idThoiGianDuKien);
         TextView tvYourNumber = view.findViewById(R.id.yourNumber);
+        TextView tvRemainingTime = view.findViewById(R.id.waitTime);
         Bundle bundle = this.getArguments();
         String sb = bundle.getString("patient");
         JSONObject json = null;
@@ -111,7 +118,7 @@ public class HomeFragment extends Fragment {
         //set profile view
         String url = "https://fit-umc-stt.azurewebsites.net/patient/thongtinkhambenh/" + patientRequest.getPatientID();
         //String testUrl = "https://fit-umc-stt.azurewebsites.net/patient/thongtinkhambenh/BN21677";
-        StringBuilder ticketStrBuilder = getTicket(url);
+        StringBuilder ticketStrBuilder = GlobalUtils.getTicket(url);
         String ticket = new String(ticketStrBuilder);
         JSONObject jsonTicket = null;
         try {
@@ -131,13 +138,21 @@ public class HomeFragment extends Fragment {
             clsRoom[i] = informationRequest.getCangLamSang().get(i).getRoomID();
             clsYourNumber[i] = informationRequest.getCangLamSang().get(i).getTicketNumber();
             clsCurrentNumber[i] = informationRequest.getCangLamSang().get(i).getRoomCurrentNumber();
-            clsTime[i] = informationRequest.getCangLamSang().get(i).getExpectedTime().substring(11,16);
+            clsTime[i] = informationRequest.getCangLamSang().get(i).getExpectedTime().substring(11, 16);
             clsName[i] = informationRequest.getCangLamSang().get(i).getFunctionalName();
         }
         tvPhongKham.setText(cmTicketRequest.getRoomID());
         tvCurrentNumber.setText(cmTicketRequest.getRoomCurrentNumber().toString());
         tvYourNumber.setText(cmTicketRequest.getTicketNumber().toString());
-        tvTime.setText(cmTicketRequest.getExpectedTime().substring(11,16));
+        tvTime.setText(cmTicketRequest.getExpectedTime().substring(11, 16));
+        String sDate1= cmTicketRequest.getExpectedTime();
+        ParsePosition pp1 = new ParsePosition(0);
+        Date then=new SimpleDateFormat("dd/MM/yyyy").parse(sDate1,pp1);
+        Date now = new Date();
+        String remaining1 = DateUtils.formatElapsedTime ((then.getTime() - now.getTime())/1000);
+        Log.d(remaining1,"");
+        tvRemainingTime.setText(
+                remaining1);
         CustomCLSGridViewAdapter customCLSGridViewAdapter = new CustomCLSGridViewAdapter(view.getContext(),
                 clsRoom,
                 clsName,
@@ -150,51 +165,6 @@ public class HomeFragment extends Fragment {
         return view;
     }
 
-
-    public static StringBuilder getTicket(final String urlString) {
-        //PatientRunnable mPatientRunnable =  new PatientRunnable(urlString);
-        //Thread mThread = new Thread(mPatientRunnable);
-        //mThread.start();
-        final CountDownLatch latch = new CountDownLatch(1);
-        final StringBuilder roomRequest = new StringBuilder();
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    URL url = new URL(urlString);
-                    HttpsURLConnection mHttpsURLConnection = (HttpsURLConnection) url.openConnection();
-                    mHttpsURLConnection.setDoInput(true);
-                    mHttpsURLConnection.setRequestMethod("GET");
-                    if (mHttpsURLConnection.getResponseCode() == 200) {
-                        mHttpsURLConnection.connect();
-                        InputStream responseBody = mHttpsURLConnection.getInputStream();
-                        BufferedReader rd = new BufferedReader(new InputStreamReader(responseBody));
-                        String line;
-                        while ((line = rd.readLine()) != null) {
-                            roomRequest.append(line);
-                        }
-                        //JSONObject json = new JSONObject(sb.toString().substring(1,sb.length()-1));
-                        //PatientRequest patientRequest = new PatientRequest(json);
-                        mHttpsURLConnection.disconnect();
-                        latch.countDown();
-                    } else {
-                        Log.d("Error ", "");
-                    }
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                //return mPatientRunnable.getPatientRequest();
-            }
-        }).start();
-        try {
-            latch.await();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        return roomRequest;
-    }
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {

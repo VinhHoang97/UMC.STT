@@ -27,7 +27,7 @@ import stt.umc.feature.fragments.SettingFragment;
 
 public class Home extends AppCompatActivity implements HomeFragment.OnFragmentInteractionListener, HistoryFragment.OnFragmentInteractionListener, ProfileFragment.OnFragmentInteractionListener, SearchFragment.OnFragmentInteractionListener, BarcodeReader.BarcodeReaderListener, SettingFragment.OnFragmentInteractionListener {
 
-
+    BarcodeReader barcodeReader;
     final Fragment homeFragment = new HomeFragment();
     final Fragment searchFragment = new SearchFragment();
     final Fragment historyFragment = new HistoryFragment();
@@ -40,16 +40,13 @@ public class Home extends AppCompatActivity implements HomeFragment.OnFragmentIn
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.bottom_navigation_view);
-
-
-
+        //barcodeReader = (BarcodeReader) getSupportFragmentManager().findFragmentById(R.id.barcode_scanner_2);
         //Load bottom navigation
         BottomNavigationView bottomNavigationView = findViewById(R.id.navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener);
         bottomNavigationView.setSelectedItemId(R.id.menu_home);
         CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) bottomNavigationView.getLayoutParams();
         layoutParams.setBehavior(new BottomNavigationBehavior());
-
 
         Bundle bundle = new Bundle();
         String sb = getIntent().getStringExtra("patient");

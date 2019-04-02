@@ -1,6 +1,7 @@
 package stt.umc.feature.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -15,7 +16,10 @@ import com.google.android.gms.vision.barcode.Barcode;
 import java.util.List;
 
 import info.androidhive.barcode.BarcodeReader;
+import stt.umc.feature.Home;
 import stt.umc.feature.R;
+import stt.umc.feature.ScanActivity;
+import stt.umc.feature.SearchedPatientActivity;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -67,15 +71,19 @@ public class SearchFragment extends Fragment implements BarcodeReader.BarcodeRea
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-        barcodeReader = (BarcodeReader) getActivity().getSupportFragmentManager().findFragmentById(R.id.barcode_scanner_2);
+            }
+        barcodeReader =(BarcodeReader) getChildFragmentManager().findFragmentById(R.id.barcode_scanner_2);
     }
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_search, container, false);
+        View view = inflater.inflate(R.layout.fragment_search, container, false);
+        return view;
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -104,7 +112,10 @@ public class SearchFragment extends Fragment implements BarcodeReader.BarcodeRea
 
     @Override
     public void onScanned(Barcode barcode) {
-
+        barcodeReader.playBeep();
+        Intent intent = new Intent(getContext(), SearchedPatientActivity.class);
+        intent.putExtra("searched_patient",barcode.displayValue);
+        startActivity(intent);
     }
 
     @Override
