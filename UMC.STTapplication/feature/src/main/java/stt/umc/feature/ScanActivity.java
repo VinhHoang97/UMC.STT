@@ -6,8 +6,11 @@ import android.os.Looper;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.SparseArray;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.google.android.gms.vision.barcode.Barcode;
@@ -15,42 +18,55 @@ import com.google.android.gms.vision.barcode.Barcode;
 import java.util.List;
 
 import info.androidhive.barcode.BarcodeReader;
+import stt.umc.feature.Utils.ConnectionAsync;
 import stt.umc.feature.Utils.GlobalUtils;
 
 public class ScanActivity extends AppCompatActivity implements BarcodeReader.BarcodeReaderListener {
-    public static final int ALREADY_LOGIN = 001;
-    public static final int NOT_LOGIN = 000;
-    BarcodeReader barcodeReader;
-    ProgressBar progressBar;
 
+    BarcodeReader barcodeReader;
+    AppCompatActivity mActivity;
+    boolean mAlreadyScanned = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scan);
         barcodeReader = (BarcodeReader) getSupportFragmentManager().findFragmentById(R.id.barcode_scanner);
-        progressBar = findViewById(R.id.pb);
+        mActivity = this;
     }
 
     @Override
     public void onScanned(Barcode barcode) {
         barcodeReader.playBeep();
-        StringBuilder patientRequest = null;
-        do {
-            patientRequest = GlobalUtils.getPatientHttpMethod("https://fit-umc-stt.azurewebsites.net/patient/" + barcode.displayValue);
-            if (patientRequest != null) {
-                barcodeReader.pauseScanning();
-                SharedPreferences sharedPreferences = getSharedPreferences("LOGIN_STATE", MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                Intent intent = new Intent(ScanActivity.this, Home.class);
-                intent.putExtra("patient", patientRequest.toString());
-                editor.putInt("LOGIN_STATE", ALREADY_LOGIN);
-                startActivity(intent);
-                finish();
-            } else {
-                Toast.makeText(this, "ERROR UNABLE TO FOUND THIS PATIENT", Toast.LENGTH_LONG).show();
-            }
+if(mAlreadyScanned)
+            return;
+        if(barcode != null && barcode.displayValue.length() > 0 )
+        {
+            mAlreadyScanned = true;
         }
-        while (patientRequest == null);
+        else {
+            return;
+        }
+
+        GlobalUtils.getPatientHttpMethod("https://fit-umc-stt.azurewebsites.net/patient/" + barcode.displayValue, new ConnectionAsync.httpRequestListener() {
+            @Override
+            public void onRecevie(String data) {
+                if(Home.HomeActivity != null ) {
+                    ((Home) Home.HomeActivity).onReceiveDataHttp(data);
+                }
+            }
+        }            }
+
+            @Override
+            public void onFailed() {
+                if(Home.HomeActivity != null ) {
+                    ((Home) Home.HomeActivity).onFailData();
+                }
+            }
+        });
+
+        Intent intent = new Intent(ScanActivity.this, Home.class);
+        startActivity(intent);
+        finish();
     }
 
 

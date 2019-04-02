@@ -18,6 +18,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import stt.umc.feature.DatLichKhamActivity;
+import stt.umc.feature.Home;
 import stt.umc.feature.R;
 import stt.umc.feature.Request.PatientRequest;
 import stt.umc.feature.Utils.GlobalUtils;
@@ -47,8 +48,6 @@ public class ProfileFragment extends Fragment {
 
     public static final String MyPREFERENCES = "MyPrefs";
     public static final String BUTTON_STATE = "Button_State";
-    public static final int ALREADY_LOGIN = 001;
-    public static final int NOT_LOGIN = 000;
 
     RadioGroup radioGroupTime;
     RadioButton radioBtn5, radioBtn15, radioBtn30;
@@ -85,75 +84,35 @@ public class ProfileFragment extends Fragment {
         }
     }
 
+
+    TextView tvFullName;
+    TextView tvBirthday;
+    TextView tvGender;
+    Button buttonDatlich;
+    Button btnLogout;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_profile, container, false);
-        Bundle bundle= this.getArguments();
-        String sb= bundle.getString("patient");
-        JSONObject json = null;
-        try {
-            json = new JSONObject(sb.substring(1,sb.length()-1));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        PatientRequest patientRequest = new PatientRequest(json);
-        //set profile view
-        TextView tvFullName = view.findViewById(R.id.tvFullName);
-        tvFullName.setText(patientRequest.getLastName()+" " + patientRequest.getMiddleName()+" "+patientRequest.getFirstName());
-        TextView tvBirthday = view.findViewById(R.id.tvBirthday);
-        String birthday[] = patientRequest.getPatientBirthday().substring(0,10).split("-");
-        tvBirthday.setText(birthday[2]+"/"+birthday[1]+"/"+birthday[0]);
-        TextView tvGender = view.findViewById(R.id.tvGender);
-        tvGender.setText(patientRequest.getGender());
-        Button button = view.findViewById(R.id.btnDatLich);
-        button.setOnClickListener(new View.OnClickListener() {
-                                      @Override
-                                      public void onClick(View view) {
-                                          startActivity(new Intent(getActivity(), DatLichKhamActivity.class));
-                                      }
-                                  });
+         tvFullName = view.findViewById(R.id.tvFullName);
+         tvBirthday = view.findViewById(R.id.tvBirthday);
+         tvGender = view.findViewById(R.id.tvGender);
+         buttonDatlich = view.findViewById(R.id.btnDatLich);
+         btnLogout = view.findViewById(R.id.btnLogout);
 
-        /*radioGroupTime = (RadioGroup)view.findViewById(R.id.radioGrTime);
-        radioBtn5 = (RadioButton)view.findViewById(R.id.radioBtn5);
-        radioBtn15 = (RadioButton)view.findViewById(R.id.radioBtn15);
-        radioBtn30 = (RadioButton)view.findViewById(R.id.radioBtn30);*/
-                // helper method to open up the file.
-                sharedpreferences = getActivity().getSharedPreferences(MyPREFERENCES, MODE_PRIVATE);
-        // grab the last saved state here on each activity start
-
-
-        /*radioGroupTime.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+        buttonDatlich.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                int checkedRadioBtn = group.getCheckedRadioButtonId();
-                SharedPreferences.Editor editor = sharedpreferences.edit();
-                *//*if (checkedRadioBtn == R.id.radioBtn5){
-                    Toast.makeText(view.getContext(), "Hiện thông báo trước khi khám 5 phút", Toast.LENGTH_LONG).show();
-                } else if(checkedRadioBtn == R.id.radioBtn15){
-                    Toast.makeText(view.getContext(), "Hiện thông báo trước khi khám 15 phút", Toast.LENGTH_LONG).show();
-                } else if(checkedRadioBtn == R.id.radioBtn30){
-                    Toast.makeText(view.getContext(), "Hiện thông báo trước khi khám 30 phút", Toast.LENGTH_LONG).show();
-                }*//*
-                editor.putInt(BUTTON_STATE,checkedRadioBtn);
-                editor.apply();
+            public void onClick(View view) {
+                startActivity(new Intent(getActivity(), DatLichKhamActivity.class));
             }
-        });*/
-        /*if(sharedpreferences.getInt(BUTTON_STATE,0) == R.id.radioBtn5){
-            radioBtn5.setChecked(true);
-        } else if(sharedpreferences.getInt(BUTTON_STATE,0) == R.id.radioBtn15) {
-            radioBtn15.setChecked(true);
-        } else if(sharedpreferences.getInt(BUTTON_STATE,0) == R.id.radioBtn30) {
-            radioBtn30.setChecked(true);
-        }*/
+        });
 
-        //Button logout
-        view.findViewById(R.id.btnLogout).setOnClickListener(new View.OnClickListener() {
+        btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 SharedPreferences sharedPreferences = getActivity().getSharedPreferences("LOGIN_STATE",MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putInt("LOGIN_STATE",NOT_LOGIN);
+                editor.putInt("LOGIN_STATE", Home.NOT_LOGIN);
                 /*GlobalUtils.showRatingDialog(v.getContext(), new DialogCallback() {
                     @Override
                     public void callback(int rating) {
@@ -163,6 +122,7 @@ public class ProfileFragment extends Fragment {
                 //getActivity().finish();
             }
         });
+
         // Inflate the layout for this fragment
         return view;
     }
@@ -204,5 +164,58 @@ public class ProfileFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    public void onReceivingData(String data) {
+
+       // Bundle bundle= this.getArguments();
+       // String sb= bundle.getString("patient");
+        String sb = data;
+        JSONObject json = null;
+        try {
+            json = new JSONObject(sb.substring(1,sb.length()-1));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        PatientRequest patientRequest = new PatientRequest(json);
+        //set profile view
+        tvFullName.setText(patientRequest.getLastName()+" " + patientRequest.getMiddleName()+" "+patientRequest.getFirstName());
+        String birthday[] = patientRequest.getPatientBirthday().substring(0,10).split("-");
+        tvBirthday.setText(birthday[2]+"/"+birthday[1]+"/"+birthday[0]);
+        tvGender.setText(patientRequest.getGender());
+
+
+        /*radioGroupTime = (RadioGroup)view.findViewById(R.id.radioGrTime);
+        radioBtn5 = (RadioButton)view.findViewById(R.id.radioBtn5);
+        radioBtn15 = (RadioButton)view.findViewById(R.id.radioBtn15);
+        radioBtn30 = (RadioButton)view.findViewById(R.id.radioBtn30);*/
+        // helper method to open up the file.
+        sharedpreferences = getActivity().getSharedPreferences(MyPREFERENCES, MODE_PRIVATE);
+        // grab the last saved state here on each activity start
+
+
+        /*radioGroupTime.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                int checkedRadioBtn = group.getCheckedRadioButtonId();
+                SharedPreferences.Editor editor = sharedpreferences.edit();
+                *//*if (checkedRadioBtn == R.id.radioBtn5){
+                    Toast.makeText(view.getContext(), "Hiện thông báo trước khi khám 5 phút", Toast.LENGTH_LONG).show();
+                } else if(checkedRadioBtn == R.id.radioBtn15){
+                    Toast.makeText(view.getContext(), "Hiện thông báo trước khi khám 15 phút", Toast.LENGTH_LONG).show();
+                } else if(checkedRadioBtn == R.id.radioBtn30){
+                    Toast.makeText(view.getContext(), "Hiện thông báo trước khi khám 30 phút", Toast.LENGTH_LONG).show();
+                }*//*
+                editor.putInt(BUTTON_STATE,checkedRadioBtn);
+                editor.apply();
+            }
+        });*/
+        /*if(sharedpreferences.getInt(BUTTON_STATE,0) == R.id.radioBtn5){
+            radioBtn5.setChecked(true);
+        } else if(sharedpreferences.getInt(BUTTON_STATE,0) == R.id.radioBtn15) {
+            radioBtn15.setChecked(true);
+        } else if(sharedpreferences.getInt(BUTTON_STATE,0) == R.id.radioBtn30) {
+            radioBtn30.setChecked(true);
+        }*/
     }
 }

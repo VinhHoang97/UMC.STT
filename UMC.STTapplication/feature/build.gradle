@@ -27,7 +27,7 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     // barcode reader library
     implementation 'info.androidhive:barcode-reader:1.1.2'
-    implementation 'com.android.support:design:26.1.0'
+    implementation 'com.android.support:design:27.1.0'
     // google vision library
     implementation 'com.google.android.gms:play-services-vision:11.0.2'
 }
