@@ -20,6 +20,8 @@ import stt.umc.feature.Home;
 import stt.umc.feature.R;
 import stt.umc.feature.ScanActivity;
 import stt.umc.feature.SearchedPatientActivity;
+import stt.umc.feature.Utils.ConnectionAsync;
+import stt.umc.feature.Utils.GlobalUtils;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -112,10 +114,22 @@ public class SearchFragment extends Fragment implements BarcodeReader.BarcodeRea
 
     @Override
     public void onScanned(Barcode barcode) {
-        barcodeReader.playBeep();
-        Intent intent = new Intent(getContext(), SearchedPatientActivity.class);
-        intent.putExtra("searched_patient",barcode.displayValue);
-        startActivity(intent);
+        String urlString = "https://fit-umc-stt.azurewebsites.net/patient/" + barcode.displayValue;
+        GlobalUtils.getPatientHttpMethod(urlString, new ConnectionAsync.httpRequestListener() {
+            @Override
+            public void onRecevie(String data) {
+                if (Home.HomeActivity != null) {
+                    ((Home) Home.HomeActivity).onReceiveDataHttp(data);
+                }
+            }
+
+            @Override
+            public void onFailed() {
+                if (Home.HomeActivity != null) {
+                    ((Home) Home.HomeActivity).onFailData();
+                }
+            }
+        });
     }
 
     @Override

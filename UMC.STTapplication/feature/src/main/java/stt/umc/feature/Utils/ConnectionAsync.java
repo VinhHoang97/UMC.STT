@@ -15,15 +15,12 @@ import javax.net.ssl.HttpsURLConnection;
 
 
 public class ConnectionAsync extends AsyncTask<String, Void, String> {
-
     public interface httpRequestListener {
         void onRecevie(final String data);
-
         void onFailed();
     }
 
     private static httpRequestListener mHttpListener;
-
     public void setHttpRequestListener(httpRequestListener listener) {
         mHttpListener = listener;
     }
@@ -35,7 +32,6 @@ public class ConnectionAsync extends AsyncTask<String, Void, String> {
             HttpsURLConnection mHttpsURLConnection = (HttpsURLConnection) url.openConnection();
             mHttpsURLConnection.setDoInput(true);
             mHttpsURLConnection.setRequestMethod("GET");
-
             if (mHttpsURLConnection.getResponseCode() == 200) {
                 final StringBuilder patientRequest = new StringBuilder();
                 mHttpsURLConnection.connect();

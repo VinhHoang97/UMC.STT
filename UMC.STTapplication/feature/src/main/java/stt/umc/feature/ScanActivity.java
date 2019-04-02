@@ -26,6 +26,7 @@ public class ScanActivity extends AppCompatActivity implements BarcodeReader.Bar
     BarcodeReader barcodeReader;
     AppCompatActivity mActivity;
     boolean mAlreadyScanned = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,33 +38,27 @@ public class ScanActivity extends AppCompatActivity implements BarcodeReader.Bar
     @Override
     public void onScanned(Barcode barcode) {
         barcodeReader.playBeep();
-if(mAlreadyScanned)
+        if (mAlreadyScanned)
             return;
-        if(barcode != null && barcode.displayValue.length() > 0 )
-        {
+        if (barcode != null && barcode.displayValue.length() > 0) {
             mAlreadyScanned = true;
-        }
-        else {
+        } else {
             return;
         }
-
         GlobalUtils.getPatientHttpMethod("https://fit-umc-stt.azurewebsites.net/patient/" + barcode.displayValue, new ConnectionAsync.httpRequestListener() {
             @Override
             public void onRecevie(String data) {
-                if(Home.HomeActivity != null ) {
+                if (Home.HomeActivity != null) {
                     ((Home) Home.HomeActivity).onReceiveDataHttp(data);
                 }
             }
-        }            }
-
             @Override
             public void onFailed() {
-                if(Home.HomeActivity != null ) {
+                if (Home.HomeActivity != null) {
                     ((Home) Home.HomeActivity).onFailData();
                 }
             }
         });
-
         Intent intent = new Intent(ScanActivity.this, Home.class);
         startActivity(intent);
         finish();

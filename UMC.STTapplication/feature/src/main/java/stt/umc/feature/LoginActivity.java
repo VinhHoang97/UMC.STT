@@ -27,7 +27,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onPostResume() {
         sharedPreferences = getSharedPreferences("LOGIN_STATE", MODE_PRIVATE);
-        if (sharedPreferences.getInt("LOGIN_STATE", 0) == Home.ALREADY_LOGIN) {
+        if (sharedPreferences.getBoolean("LOGIN_STATE", false) == Home.ALREADY_LOGIN) {
             startActivity(new Intent(LoginActivity.this, Home.class));
         }
         super.onPostResume();
@@ -37,7 +37,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         sharedPreferences = getSharedPreferences("LOGIN_STATE", MODE_PRIVATE);
-        if (sharedPreferences.getInt("LOGIN_STATE", 0) == Home.ALREADY_LOGIN) {
+        if (sharedPreferences.getBoolean("LOGIN_STATE", false) == Home.ALREADY_LOGIN) {
             startActivity(new Intent(LoginActivity.this, Home.class));
         }
         setContentView(R.layout.login);

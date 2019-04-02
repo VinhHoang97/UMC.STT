@@ -35,6 +35,8 @@ import static android.content.Context.MODE_PRIVATE;
  * create an instance of this fragment.
  */
 public class ProfileFragment extends Fragment {
+    final static Boolean ALREADY_LOGIN = true;
+    final static Boolean NOT_LOGIN = false;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -112,7 +114,7 @@ public class ProfileFragment extends Fragment {
             public void onClick(View v) {
                 SharedPreferences sharedPreferences = getActivity().getSharedPreferences("LOGIN_STATE",MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putInt("LOGIN_STATE", Home.NOT_LOGIN);
+                editor.putBoolean("LOGIN_STATE", Home.NOT_LOGIN);
                 /*GlobalUtils.showRatingDialog(v.getContext(), new DialogCallback() {
                     @Override
                     public void callback(int rating) {

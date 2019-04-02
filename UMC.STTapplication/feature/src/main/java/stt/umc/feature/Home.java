@@ -1,5 +1,7 @@
 package stt.umc.feature;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -16,6 +18,7 @@ import android.view.MenuItem;
 
 import com.google.android.gms.vision.barcode.Barcode;
 
+import java.util.Calendar;
 import java.util.List;
 
 import info.androidhive.barcode.BarcodeReader;
@@ -25,9 +28,12 @@ import stt.umc.feature.fragments.HomeFragment;
 import stt.umc.feature.fragments.ProfileFragment;
 import stt.umc.feature.fragments.SearchFragment;
 import stt.umc.feature.fragments.SettingFragment;
+import stt.umc.feature.receiver.AlarmReceiver;
 
 public class Home extends AppCompatActivity implements HomeFragment.OnFragmentInteractionListener, HistoryFragment.OnFragmentInteractionListener, ProfileFragment.OnFragmentInteractionListener, SearchFragment.OnFragmentInteractionListener, BarcodeReader.BarcodeReaderListener, SettingFragment.OnFragmentInteractionListener {
 
+     public final static Boolean ALREADY_LOGIN = true;
+     public final static Boolean NOT_LOGIN = false;
      Fragment homeFragment = new HomeFragment();
      Fragment searchFragment = new SearchFragment();
      Fragment historyFragment = new HistoryFragment();
@@ -56,6 +62,15 @@ public class Home extends AppCompatActivity implements HomeFragment.OnFragmentIn
         //set homepage
 
         mFragmentManager.beginTransaction().add(R.id.frame_container,homeFragment, "1").commit();
+
+        //creating and assigning value to alarm manager class
+        Calendar Alarm = Calendar.getInstance();
+        Alarm.set(Calendar.HOUR_OF_DAY,17);
+        Alarm.set(Calendar.MINUTE, 35);
+        Intent AlarmIntent = new Intent(Home.this, AlarmReceiver.class);
+        AlarmManager AlmMgr = (AlarmManager)getSystemService(ALARM_SERVICE);
+        PendingIntent Sender = PendingIntent.getBroadcast(Home.this, 0, AlarmIntent, 0);
+        AlmMgr.set(AlarmManager.RTC_WAKEUP, Alarm.getTimeInMillis(), Sender);
 
         //
         HomeActivity = this;
@@ -90,13 +105,6 @@ public class Home extends AppCompatActivity implements HomeFragment.OnFragmentIn
         }
     };
 
-    private void loadFragment(Fragment fragment) {
-        // load fragment
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.frame_container, fragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
-    }
 
     @Override
     public void onFragmentInteraction(Uri uri) {
@@ -132,8 +140,7 @@ public class Home extends AppCompatActivity implements HomeFragment.OnFragmentIn
         if(data.length() > 0) {
             SharedPreferences sharedPreferences = getSharedPreferences("LOGIN_STATE", MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putInt("LOGIN_STATE", ALREADY_LOGIN);
-
+            editor.putBoolean("LOGIN_STATE", ALREADY_LOGIN);
             if(homeFragment != null ) {
                 ((HomeFragment)homeFragment).onReceivingData(data);
             }
@@ -146,7 +153,7 @@ public class Home extends AppCompatActivity implements HomeFragment.OnFragmentIn
     public void onFailData() {
         SharedPreferences sharedPreferences = getSharedPreferences("LOGIN_STATE", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putInt("LOGIN_STATE", NOT_LOGIN);
+        editor.putBoolean("LOGIN_STATE", NOT_LOGIN);
 
         if(homeFragment != null ) {
             ((HomeFragment)homeFragment).onFailed();

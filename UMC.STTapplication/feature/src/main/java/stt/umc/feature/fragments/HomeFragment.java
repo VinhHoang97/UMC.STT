@@ -41,6 +41,8 @@ import stt.umc.feature.Request.SubclinicalMedicalTicketRequest;
 import stt.umc.feature.Request.TicketInformationRequest;
 import stt.umc.feature.Utils.GlobalUtils;
 
+import static stt.umc.feature.Utils.GlobalUtils.getTicket;
+
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
@@ -116,7 +118,10 @@ public class HomeFragment extends Fragment {
         mTextNotice = view.findViewById(R.id.txt_notice);
         mHomeContent = view.findViewById(R.id.homeContent);
         mLoadingProgress = view.findViewById(R.id.loadingPanel);
-        }
+        tvPhongKham = view.findViewById(R.id.idPhongKham);
+        tvCurrentNumber = view.findViewById(R.id.currentNumber);
+        tvTime = view.findViewById(R.id.idThoiGianDuKien);
+        tvYourNumber = view.findViewById(R.id.yourNumber);
         //}
         // Inflate the layout for this fragment
         return view;
@@ -213,10 +218,6 @@ public class HomeFragment extends Fragment {
     }
 
     public void onReceivingData(String data) {
-
-
-       // Bundle bundle = this.getArguments();
-       // String sb = bundle.getString("patient");
         String sb = data;
         JSONObject json = null;
         try {
@@ -252,8 +253,8 @@ public class HomeFragment extends Fragment {
             clsName[i] = informationRequest.getCangLamSang().get(i).getFunctionalName();
         }
         tvPhongKham.setText(cmTicketRequest.getRoomID());
-        tvCurrentNumber.setText(cmTicketRequest.getRoomCurrentNumber().toString());
-        tvYourNumber.setText(cmTicketRequest.getTicketNumber().toString());
+        tvCurrentNumber.setText(String.format(cmTicketRequest.getRoomCurrentNumber().toString()));
+        tvYourNumber.setText(String.format(cmTicketRequest.getRoomCurrentNumber().toString()));
         tvTime.setText(cmTicketRequest.getExpectedTime().substring(11,16));
         CustomCLSGridViewAdapter customCLSGridViewAdapter = new CustomCLSGridViewAdapter(this.getContext(),
                 clsRoom,
@@ -262,9 +263,6 @@ public class HomeFragment extends Fragment {
                 clsYourNumber,
                 clsTime);
         ((GridView)mGridView).setAdapter(customCLSGridViewAdapter);
-
         onLoadingDataComplete(true);
     }
-
-
 }

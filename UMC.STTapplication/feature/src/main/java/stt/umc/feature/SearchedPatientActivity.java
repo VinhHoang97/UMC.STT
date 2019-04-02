@@ -27,7 +27,7 @@ public class SearchedPatientActivity extends AppCompatActivity {
         TextView tvTime = findViewById(R.id.searchedPatientExpectedTime);
         TextView tvYourNumber = findViewById(R.id.searchedPatientNumber);
         setContentView(R.layout.search_detail);
-        String sb = getIntent().getStringExtra("searched_patient");
+        /*String sb = getIntent().getStringExtra("searched_patient");
         String urlString = "https://fit-umc-stt.azurewebsites.net/patient/" + sb;
         StringBuilder searchedPatient= GlobalUtils.getPatientHttpMethod(urlString);
         JSONObject json = null;
@@ -71,6 +71,6 @@ public class SearchedPatientActivity extends AppCompatActivity {
                 clsCurrentNumber,
                 clsYourNumber,
                 clsTime);
-        gridView.setAdapter(customCLSGridViewAdapter);
+        gridView.setAdapter(customCLSGridViewAdapter);*/
     }
 }
