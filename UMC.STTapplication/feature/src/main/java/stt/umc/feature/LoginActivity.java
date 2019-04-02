@@ -15,8 +15,6 @@ import android.view.View;
 
 public class LoginActivity extends AppCompatActivity {
 
-    public static final int ALREADY_LOGIN = 001;
-    public static final int NOT_LOGIN = 000;
     SharedPreferences sharedPreferences;
     private NotificationCompat.Builder notiBuilder;
     private static final int MY_NOTIFICATION_ID = 12345;
@@ -29,7 +27,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onPostResume() {
         sharedPreferences = getSharedPreferences("LOGIN_STATE", MODE_PRIVATE);
-        if (sharedPreferences.getInt("LOGIN_STATE", 0) == ALREADY_LOGIN) {
+        if (sharedPreferences.getInt("LOGIN_STATE", 0) == Home.ALREADY_LOGIN) {
             startActivity(new Intent(LoginActivity.this, Home.class));
         }
         super.onPostResume();
@@ -39,7 +37,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         sharedPreferences = getSharedPreferences("LOGIN_STATE", MODE_PRIVATE);
-        if (sharedPreferences.getInt("LOGIN_STATE", 0) == ALREADY_LOGIN) {
+        if (sharedPreferences.getInt("LOGIN_STATE", 0) == Home.ALREADY_LOGIN) {
             startActivity(new Intent(LoginActivity.this, Home.class));
         }
         setContentView(R.layout.login);

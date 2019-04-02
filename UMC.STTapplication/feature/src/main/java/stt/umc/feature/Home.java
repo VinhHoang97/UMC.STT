@@ -1,6 +1,7 @@
 package stt.umc.feature;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -27,21 +28,23 @@ import stt.umc.feature.fragments.SettingFragment;
 
 public class Home extends AppCompatActivity implements HomeFragment.OnFragmentInteractionListener, HistoryFragment.OnFragmentInteractionListener, ProfileFragment.OnFragmentInteractionListener, SearchFragment.OnFragmentInteractionListener, BarcodeReader.BarcodeReaderListener, SettingFragment.OnFragmentInteractionListener {
 
+    public static final int ALREADY_LOGIN = 001;
+    public static final int NOT_LOGIN = 000;
 
-    final Fragment homeFragment = new HomeFragment();
-    final Fragment searchFragment = new SearchFragment();
-    final Fragment historyFragment = new HistoryFragment();
-    final Fragment settingFragment = new SettingFragment();
-    final Fragment profileFragment  = new ProfileFragment();
-    final FragmentManager mFragmentManager = getSupportFragmentManager();
-    Fragment active = homeFragment;
+     Fragment homeFragment = new HomeFragment();
+     Fragment searchFragment = new SearchFragment();
+     Fragment historyFragment = new HistoryFragment();
+     Fragment settingFragment = new SettingFragment();
+     Fragment profileFragment  = new ProfileFragment();
+     FragmentManager mFragmentManager = getSupportFragmentManager();
+     Fragment active = homeFragment;
+
+     public static Home HomeActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.bottom_navigation_view);
-
-
 
         //Load bottom navigation
         BottomNavigationView bottomNavigationView = findViewById(R.id.navigation);
@@ -51,11 +54,6 @@ public class Home extends AppCompatActivity implements HomeFragment.OnFragmentIn
         layoutParams.setBehavior(new BottomNavigationBehavior());
 
 
-        Bundle bundle = new Bundle();
-        String sb = getIntent().getStringExtra("patient");
-        bundle.putString("patient", sb);
-        homeFragment.setArguments(bundle);
-        profileFragment.setArguments(bundle);
         mFragmentManager.beginTransaction().add(R.id.frame_container, profileFragment, "5").hide(profileFragment).commit();
         mFragmentManager.beginTransaction().add(R.id.frame_container, historyFragment, "4").hide(historyFragment).commit();
         mFragmentManager.beginTransaction().add(R.id.frame_container, settingFragment, "3").hide(settingFragment).commit();
@@ -63,6 +61,9 @@ public class Home extends AppCompatActivity implements HomeFragment.OnFragmentIn
         //set homepage
 
         mFragmentManager.beginTransaction().add(R.id.frame_container,homeFragment, "1").commit();
+
+        //
+        HomeActivity = this;
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener onNavigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -130,5 +131,30 @@ public class Home extends AppCompatActivity implements HomeFragment.OnFragmentIn
     @Override
     public void onBackPressed() {
         getApplication().onTerminate();
+    }
+
+    public void onReceiveDataHttp(String data) {
+        if(data.length() > 0) {
+            SharedPreferences sharedPreferences = getSharedPreferences("LOGIN_STATE", MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putInt("LOGIN_STATE", ALREADY_LOGIN);
+
+            if(homeFragment != null ) {
+                ((HomeFragment)homeFragment).onReceivingData(data);
+            }
+            if(profileFragment != null ) {
+                ((ProfileFragment) profileFragment).onReceivingData(data);
+            }
+        }
+    }
+
+    public void onFailData() {
+        SharedPreferences sharedPreferences = getSharedPreferences("LOGIN_STATE", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt("LOGIN_STATE", NOT_LOGIN);
+
+        if(homeFragment != null ) {
+            ((HomeFragment)homeFragment).onFailed();
+        }
     }
 }

@@ -32,7 +32,6 @@
                 android:textColor="@color/whiteBackground"
                 />
         </RelativeLayout>
-
         <LinearLayout
             android:id="@+id/homeContent"
             android:layout_width="match_parent"
@@ -100,7 +99,6 @@
                 </LinearLayout>
 
             </LinearLayout>
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -149,9 +147,10 @@
                 </LinearLayout>
 
             </LinearLayout>
-
         </LinearLayout>
+
         <TextView
+            android:id="@+id/txt_notice"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/homeGrid"
@@ -160,6 +159,7 @@
             android:textSize="15sp"
             android:textAlignment="center"
             android:textColor="@color/greyText"/>
+
         <GridView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -171,6 +171,19 @@
             android:verticalSpacing="5dp">
 
         </GridView>
+
+        <RelativeLayout
+            android:id="@+id/loadingPanel"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center" >
+
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:indeterminate="true" />
+        </RelativeLayout>
+
     </RelativeLayout>
 
 </FrameLayout>

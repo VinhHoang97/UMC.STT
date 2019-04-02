@@ -3,6 +3,7 @@ package stt.umc.feature.fragments;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -43,6 +44,7 @@ import stt.umc.feature.Request.TicketInformationRequest;
  * create an instance of this fragment.
  */
 public class HomeFragment extends Fragment {
+
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -90,61 +92,33 @@ public class HomeFragment extends Fragment {
         }
     }
 
+    private View mGridView ;
+    private View mTextNotice;
+    private View mHomeContent;
+    private View mLoadingProgress;
+
+
+    private  TextView tvPhongKham;
+    private  TextView tvCurrentNumber ;
+    private  TextView tvTime ;
+    private TextView tvYourNumber ;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-        GridView gridView = view.findViewById(R.id.homeGrid);
-        TextView tvPhongKham = view.findViewById(R.id.idPhongKham);
-        TextView tvCurrentNumber = view.findViewById(R.id.currentNumber);
-        TextView tvTime = view.findViewById(R.id.idThoiGianDuKien);
-        TextView tvYourNumber = view.findViewById(R.id.yourNumber);
-        Bundle bundle = this.getArguments();
-        String sb = bundle.getString("patient");
-        JSONObject json = null;
-        try {
-            json = new JSONObject(sb.substring(1, sb.length() - 1));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        PatientRequest patientRequest = new PatientRequest(json);
-        //set profile view
-        String url = "https://fit-umc-stt.azurewebsites.net/patient/thongtinkhambenh/" + patientRequest.getPatientID();
-        //String testUrl = "https://fit-umc-stt.azurewebsites.net/patient/thongtinkhambenh/BN21677";
-        StringBuilder ticketStrBuilder = getTicket(url);
-        String ticket = new String(ticketStrBuilder);
-        JSONObject jsonTicket = null;
-        try {
-            jsonTicket = new JSONObject(ticket);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        TicketInformationRequest informationRequest = new TicketInformationRequest(jsonTicket);
-        ClinicalMedicalTicketRequest cmTicketRequest = informationRequest.getLamSang().get(0);
-        String[] clsRoom = new String[informationRequest.getCangLamSang().size()];
-        String[] clsName = new String[informationRequest.getCangLamSang().size()];
-        Integer[] clsCurrentNumber = new Integer[informationRequest.getCangLamSang().size()];
-        Integer[] clsYourNumber = new Integer[informationRequest.getCangLamSang().size()];
-        String[] clsTime = new String[informationRequest.getCangLamSang().size()];
+        mGridView = view.findViewById(R.id.homeGrid);
+        mTextNotice = view.findViewById(R.id.txt_notice);
+        mHomeContent = view.findViewById(R.id.homeContent);
+        mLoadingProgress = view.findViewById(R.id.loadingPanel);
 
-        for (int i = 0; i < informationRequest.getCangLamSang().size(); i++) {
-            clsRoom[i] = informationRequest.getCangLamSang().get(i).getRoomID();
-            clsYourNumber[i] = informationRequest.getCangLamSang().get(i).getTicketNumber();
-            clsCurrentNumber[i] = informationRequest.getCangLamSang().get(i).getRoomCurrentNumber();
-            clsTime[i] = informationRequest.getCangLamSang().get(i).getExpectedTime().substring(11,16);
-            clsName[i] = informationRequest.getCangLamSang().get(i).getFunctionalName();
+        tvPhongKham = view.findViewById(R.id.idPhongKham);
+        tvCurrentNumber = view.findViewById(R.id.currentNumber);
+        tvTime = view.findViewById(R.id.idThoiGianDuKien);
+        tvYourNumber = view.findViewById(R.id.yourNumber);
+
+        if(haveReceiveResult == false) {
+            onLoadingDataComplete(false);
         }
-        tvPhongKham.setText(cmTicketRequest.getRoomID());
-        tvCurrentNumber.setText(cmTicketRequest.getRoomCurrentNumber().toString());
-        tvYourNumber.setText(cmTicketRequest.getTicketNumber().toString());
-        tvTime.setText(cmTicketRequest.getExpectedTime().substring(11,16));
-        CustomCLSGridViewAdapter customCLSGridViewAdapter = new CustomCLSGridViewAdapter(view.getContext(),
-                clsRoom,
-                clsName,
-                clsCurrentNumber,
-                clsYourNumber,
-                clsTime);
-        gridView.setAdapter(customCLSGridViewAdapter);
         //}
         // Inflate the layout for this fragment
         return view;
@@ -234,4 +208,110 @@ public class HomeFragment extends Fragment {
         // TODO: Update argument type and name
         public void onFragmentInteraction(Uri uri);
     }
+    boolean haveReceiveResult = false;
+
+    public void onFailed() {
+        this.getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                haveReceiveResult = true;
+                mGridView.setVisibility(View.INVISIBLE);
+                mTextNotice.setVisibility(View.VISIBLE);
+                mHomeContent.setVisibility(View.INVISIBLE);
+                mLoadingProgress.setVisibility(View.INVISIBLE);
+
+                ((TextView)mTextNotice).setText("ERROR UNABLE TO FOUND THIS PATIENT");
+            }
+        });
+    }
+
+    public void onLoadingDataComplete(final boolean completed) {
+        if(!completed) {
+            mGridView.setVisibility(View.INVISIBLE);
+            mTextNotice.setVisibility(View.INVISIBLE);
+            mHomeContent.setVisibility(View.INVISIBLE);
+            mLoadingProgress.setVisibility(View.VISIBLE);
+        }
+        else {
+            mGridView.setVisibility(View.VISIBLE);
+            mTextNotice.setVisibility(View.VISIBLE);
+            mHomeContent.setVisibility(View.VISIBLE);
+            mLoadingProgress.setVisibility(View.INVISIBLE);
+        }
+
+//        Handler handler = new Handler();
+//        handler.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                if(!completed) {
+//                    mGridView.setVisibility(View.INVISIBLE);
+//                    mTextNotice.setVisibility(View.INVISIBLE);
+//                    mHomeContent.setVisibility(View.INVISIBLE);
+//                    mLoadingProgress.setVisibility(View.VISIBLE);
+//                }
+//                else {
+//                    mGridView.setVisibility(View.VISIBLE);
+//                    mTextNotice.setVisibility(View.VISIBLE);
+//                    mHomeContent.setVisibility(View.VISIBLE);
+//                    mLoadingProgress.setVisibility(View.INVISIBLE);
+//                }
+//            }
+//        } , 500);
+    }
+
+    public void onReceivingData(String data) {
+
+
+       // Bundle bundle = this.getArguments();
+       // String sb = bundle.getString("patient");
+        String sb = data;
+        JSONObject json = null;
+        try {
+            json = new JSONObject(sb.substring(1, sb.length() - 1));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        PatientRequest patientRequest = new PatientRequest(json);
+        //set profile view
+        String url = "https://fit-umc-stt.azurewebsites.net/patient/thongtinkhambenh/" + patientRequest.getPatientID();
+        //String testUrl = "https://fit-umc-stt.azurewebsites.net/patient/thongtinkhambenh/BN21677";
+        StringBuilder ticketStrBuilder = getTicket(url);
+        String ticket = new String(ticketStrBuilder);
+        JSONObject jsonTicket = null;
+        try {
+            jsonTicket = new JSONObject(ticket);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        TicketInformationRequest informationRequest = new TicketInformationRequest(jsonTicket);
+        ClinicalMedicalTicketRequest cmTicketRequest = informationRequest.getLamSang().get(0);
+        String[] clsRoom = new String[informationRequest.getCangLamSang().size()];
+        String[] clsName = new String[informationRequest.getCangLamSang().size()];
+        Integer[] clsCurrentNumber = new Integer[informationRequest.getCangLamSang().size()];
+        Integer[] clsYourNumber = new Integer[informationRequest.getCangLamSang().size()];
+        String[] clsTime = new String[informationRequest.getCangLamSang().size()];
+
+        for (int i = 0; i < informationRequest.getCangLamSang().size(); i++) {
+            clsRoom[i] = informationRequest.getCangLamSang().get(i).getRoomID();
+            clsYourNumber[i] = informationRequest.getCangLamSang().get(i).getTicketNumber();
+            clsCurrentNumber[i] = informationRequest.getCangLamSang().get(i).getRoomCurrentNumber();
+            clsTime[i] = informationRequest.getCangLamSang().get(i).getExpectedTime().substring(11,16);
+            clsName[i] = informationRequest.getCangLamSang().get(i).getFunctionalName();
+        }
+        tvPhongKham.setText(cmTicketRequest.getRoomID());
+        tvCurrentNumber.setText(cmTicketRequest.getRoomCurrentNumber().toString());
+        tvYourNumber.setText(cmTicketRequest.getTicketNumber().toString());
+        tvTime.setText(cmTicketRequest.getExpectedTime().substring(11,16));
+        CustomCLSGridViewAdapter customCLSGridViewAdapter = new CustomCLSGridViewAdapter(this.getContext(),
+                clsRoom,
+                clsName,
+                clsCurrentNumber,
+                clsYourNumber,
+                clsTime);
+        ((GridView)mGridView).setAdapter(customCLSGridViewAdapter);
+
+        onLoadingDataComplete(true);
+    }
+
+
 }
