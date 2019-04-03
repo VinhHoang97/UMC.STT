@@ -1,6 +1,9 @@
 package stt.umc.feature;
 
 import android.app.AlarmManager;
+import android.app.Application;
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -12,6 +15,8 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.SparseArray;
 import android.view.MenuItem;
@@ -30,14 +35,17 @@ import stt.umc.feature.fragments.SearchFragment;
 import stt.umc.feature.fragments.SettingFragment;
 import stt.umc.feature.receiver.AlarmReceiver;
 
+import static stt.umc.feature.MyNotificationChannel.CHANNEL_ON_TIME;
+
 public class Home extends AppCompatActivity implements HomeFragment.OnFragmentInteractionListener, HistoryFragment.OnFragmentInteractionListener, ProfileFragment.OnFragmentInteractionListener, SearchFragment.OnFragmentInteractionListener, BarcodeReader.BarcodeReaderListener, SettingFragment.OnFragmentInteractionListener {
+
 
      public final static Boolean ALREADY_LOGIN = true;
      public final static Boolean NOT_LOGIN = false;
+     Fragment settingFragment = new SettingFragment();
      Fragment homeFragment = new HomeFragment();
      Fragment searchFragment = new SearchFragment();
      Fragment historyFragment = new HistoryFragment();
-     Fragment settingFragment = new SettingFragment();
      Fragment profileFragment  = new ProfileFragment();
      FragmentManager mFragmentManager = getSupportFragmentManager();
      Fragment active = homeFragment;
@@ -60,17 +68,7 @@ public class Home extends AppCompatActivity implements HomeFragment.OnFragmentIn
         mFragmentManager.beginTransaction().add(R.id.frame_container, settingFragment, "3").hide(settingFragment).commit();
         mFragmentManager.beginTransaction().add(R.id.frame_container, searchFragment, "2").hide(searchFragment).commit();
         //set homepage
-
         mFragmentManager.beginTransaction().add(R.id.frame_container,homeFragment, "1").commit();
-
-        //creating and assigning value to alarm manager class
-        Calendar Alarm = Calendar.getInstance();
-        Alarm.set(Calendar.HOUR_OF_DAY,17);
-        Alarm.set(Calendar.MINUTE, 35);
-        Intent AlarmIntent = new Intent(Home.this, AlarmReceiver.class);
-        AlarmManager AlmMgr = (AlarmManager)getSystemService(ALARM_SERVICE);
-        PendingIntent Sender = PendingIntent.getBroadcast(Home.this, 0, AlarmIntent, 0);
-        AlmMgr.set(AlarmManager.RTC_WAKEUP, Alarm.getTimeInMillis(), Sender);
 
         //
         HomeActivity = this;
@@ -159,4 +157,6 @@ public class Home extends AppCompatActivity implements HomeFragment.OnFragmentIn
             ((HomeFragment)homeFragment).onFailed();
         }
     }
+
+
 }

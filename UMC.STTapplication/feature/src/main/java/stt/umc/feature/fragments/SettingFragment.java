@@ -6,9 +6,8 @@ import android.database.Cursor;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Vibrator;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,16 +15,15 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.RadioButton;
 import android.widget.Spinner;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import stt.umc.feature.R;
-
-import static android.content.Context.MODE_PRIVATE;
 
 
 /**
@@ -48,7 +46,7 @@ public class SettingFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    SharedPreferences sharedPreferences ;
+    SharedPreferences sharedPreferences;
 
 
     public SettingFragment() {
@@ -105,11 +103,12 @@ public class SettingFragment extends Fragment {
                 (android.R.layout.simple_spinner_dropdown_item);
         final Spinner timeOutSpinner = view.findViewById(R.id.timeOutSpinner);
         timeOutSpinner.setAdapter(adapterTimeOut);
+        timeOutSpinner.setSelection(0);
         timeOutSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 editor.putString("time_out", timeOutSpinner.getSelectedItem().toString());
-                editor.commit();
+                editor.apply();
             }
 
             @Override
@@ -132,11 +131,12 @@ public class SettingFragment extends Fragment {
                 (android.R.layout.simple_spinner_dropdown_item);
         final Spinner repeatSpinner = view.findViewById(R.id.repeatSpinner);
         repeatSpinner.setAdapter(adapterRepeat);
+        repeatSpinner.setSelection(0);
         repeatSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 editor.putString("repeat", repeatSpinner.getSelectedItem().toString());
-                editor.commit();
+                editor.apply();
             }
 
             @Override
@@ -145,8 +145,10 @@ public class SettingFragment extends Fragment {
             }
         });
 
-        List<String> ringtoneArr =new ArrayList<>();
-        for ( Object item: listRingtones().keySet().toArray()) {
+        final HashMap<String, Uri> mListRingTone = listRingtones();
+        List<String> ringtoneArr = new ArrayList<>();
+
+        for (Object item : mListRingTone.keySet().toArray()) {
             ringtoneArr.add(item.toString());
         }
 
@@ -160,58 +162,61 @@ public class SettingFragment extends Fragment {
         adapterRingTone.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         final Spinner ringToneSpinner = view.findViewById(R.id.ringToneSpinner);
         ringToneSpinner.setAdapter(adapterRingTone);
+        ringToneSpinner.setSelection(0);
         ringToneSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-                editor.putString("ring_tone", ringToneSpinner.getSelectedItem().toString());
-                editor.commit();
+                editor.putString ("ring_tone",  ringToneSpinner.getSelectedItem().toString());
+                editor.putString("ring_tone_uri",mListRingTone.get(ringToneSpinner.getSelectedItem().toString()).toString());
+                editor.apply();
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
+                //
             }
         });
 
         //Radio button set up
         CheckBox rdtbnNoti = view.findViewById(R.id.rdbtnNotification);
-        if(rdtbnNoti.isChecked()){
-            editor.putBoolean("notification",true);
-            editor.commit();
+        if (rdtbnNoti.isChecked()) {
+            editor.putBoolean("notification", true);
+            editor.apply();
         }
         rdtbnNoti.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                editor.putBoolean("notification",isChecked);
-                editor.commit();
+                editor.putBoolean("notification", isChecked);
+                editor.apply();
             }
         });
 
         CheckBox rdbtnVibrate = view.findViewById(R.id.rdbtnVibrate);
-        if(rdbtnVibrate.isChecked()){
-            editor.putBoolean("vibrate",true);
-            editor.commit();
+        if (rdbtnVibrate.isChecked()) {
+            editor.putBoolean("vibrate", true);
+            editor.apply();
         }
         rdbtnVibrate.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                editor.putBoolean("vibrate",isChecked);
-                editor.commit();
+                editor.putBoolean("vibrate", isChecked);
+                editor.apply();
             }
         });
         return view;
     }
 
-    public HashMap<String, String> listRingtones() {
-        HashMap<String, String> ringTonesHashmap = new HashMap<>();
+
+    //get all ring tone name
+    public HashMap<String, Uri> listRingtones() {
+        HashMap<String, Uri> ringTonesHashmap = new HashMap<>();
         RingtoneManager manager = new RingtoneManager(getContext());
         manager.setType(RingtoneManager.TYPE_RINGTONE);
         Cursor cursor = manager.getCursor();
         while (cursor.moveToNext()) {
             String title = cursor.getString(RingtoneManager.TITLE_COLUMN_INDEX);
             Uri ringtoneURI = manager.getRingtoneUri(cursor.getPosition());
-            ringTonesHashmap.put(title, ringtoneURI.toString());
+            ringTonesHashmap.put(title, ringtoneURI);
         }
         return ringTonesHashmap;
     }
@@ -254,4 +259,6 @@ public class SettingFragment extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
+
 }

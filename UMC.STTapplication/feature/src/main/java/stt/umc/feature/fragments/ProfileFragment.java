@@ -192,7 +192,7 @@ public class ProfileFragment extends Fragment {
         radioBtn15 = (RadioButton)view.findViewById(R.id.radioBtn15);
         radioBtn30 = (RadioButton)view.findViewById(R.id.radioBtn30);*/
         // helper method to open up the file.
-        sharedpreferences = getActivity().getSharedPreferences(MyPREFERENCES, MODE_PRIVATE);
+        //sharedpreferences = getActivity().getSharedPreferences(MyPREFERENCES, MODE_PRIVATE);
         // grab the last saved state here on each activity start
 
 

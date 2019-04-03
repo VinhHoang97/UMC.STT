@@ -7,7 +7,8 @@
     <uses-permission android:name="android.permission.VIBRATE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
-    <application >
+    <application
+        android:name=".MyNotificationChannel">
         <activity android:name=".Home"  android:launchMode="singleTop"/>
         <activity android:name=".LoginActivity">
             <intent-filter android:order="1">

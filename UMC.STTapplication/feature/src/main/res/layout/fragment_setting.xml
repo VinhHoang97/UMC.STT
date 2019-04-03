@@ -136,6 +136,7 @@
                     android:textColor="#53AEFC"/>
                 <CheckBox
                     android:id="@+id/rdbtnVibrate"
+                    android:checked="true"
                     android:layout_width="wrap_content"
                     android:buttonTint="@color/greyText"
                     android:layout_height="wrap_content"
@@ -156,6 +157,7 @@
                 <CheckBox
                     android:id="@+id/rdbtnNotification"
                     android:layout_width="wrap_content"
+                    android:checked="true"
                     android:layout_height="wrap_content"
                     android:buttonTint="@color/greyText"
                     android:layout_alignParentRight="true"
