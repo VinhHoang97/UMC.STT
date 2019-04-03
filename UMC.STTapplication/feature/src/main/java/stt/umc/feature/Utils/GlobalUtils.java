@@ -59,7 +59,61 @@ public class GlobalUtils {
         task.execute(params);
     }
 
+    public static void getHistoryHttpMethod(final String urlString , ConnectionAsync.httpRequestListener listener) {
+        ConnectionAsync task = new ConnectionAsync();
+        task.setHttpRequestListener(listener);
+        String[] params = new String[2];
+        params[0] = urlString;
+        params[1] = "";
+        task.execute(params);
+    }
+
     public static StringBuilder getTicket(final String urlString) {
+        //PatientRunnable mPatientRunnable =  new PatientRunnable(urlString);
+        //Thread mThread = new Thread(mPatientRunnable);
+        //mThread.start();
+        final CountDownLatch latch = new CountDownLatch(1);
+        final StringBuilder roomRequest = new StringBuilder();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    URL url = new URL(urlString);
+                    HttpsURLConnection mHttpsURLConnection = (HttpsURLConnection) url.openConnection();
+                    mHttpsURLConnection.setDoInput(true);
+                    mHttpsURLConnection.setRequestMethod("GET");
+                    if (mHttpsURLConnection.getResponseCode() == 200) {
+                        mHttpsURLConnection.connect();
+                        InputStream responseBody = mHttpsURLConnection.getInputStream();
+                        BufferedReader rd = new BufferedReader(new InputStreamReader(responseBody));
+                        String line;
+                        while ((line = rd.readLine()) != null) {
+                            roomRequest.append(line);
+                        }
+                        //JSONObject json = new JSONObject(sb.toString().substring(1,sb.length()-1));
+                        //PatientRequest patientRequest = new PatientRequest(json);
+                        mHttpsURLConnection.disconnect();
+                        latch.countDown();
+                    } else {
+                        Log.d("Error ", "");
+                    }
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                //return mPatientRunnable.getPatientRequest();
+            }
+        }).start();
+        try {
+            latch.await();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return roomRequest;
+    }
+
+    public static StringBuilder getHistory(final String urlString) {
         //PatientRunnable mPatientRunnable =  new PatientRunnable(urlString);
         //Thread mThread = new Thread(mPatientRunnable);
         //mThread.start();

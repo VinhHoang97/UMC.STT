@@ -290,7 +290,7 @@ public class HomeFragment extends Fragment {
                     .setContentIntent(contentIntent)
                     .setContentTitle("On Time")
                     .setContentText("Còn " + time_out+ " đến giờ khám")
-                    .setVibrate(new long[]{1000, 1000, 1000,})
+                    .setVibrate(new long[]{1000, 1000, 1000,1000 ,1000})
                     .setPriority(NotificationCompat.PRIORITY_HIGH)
                     .setCategory(NotificationCompat.CATEGORY_MESSAGE)
                     .setAutoCancel(true)

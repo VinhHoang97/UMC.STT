@@ -4,12 +4,15 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
 
-    <application
-        android:name=".MyNotificationChannel">
-        <activity android:name=".Home"  android:launchMode="singleTop"/>
+    <application android:name=".MyNotificationChannel">
+        <activity android:name=".Booking"></activity>
+        <activity
+            android:name=".Home"
+            android:launchMode="singleTop" />
         <activity android:name=".LoginActivity">
             <intent-filter android:order="1">
                 <action android:name="android.intent.action.VIEW" />
@@ -36,10 +39,12 @@
                     android:scheme="https" />
             </intent-filter>
         </activity>
+
         <receiver android:name=".MyAlarmReceiver">
             <intent-filter>
                 <action android:name="com.example.helloandroid.alarms" />
             </intent-filter>
         </receiver>
     </application>
+
 </manifest>

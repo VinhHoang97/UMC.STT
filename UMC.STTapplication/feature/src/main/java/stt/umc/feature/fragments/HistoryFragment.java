@@ -9,8 +9,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+
+import stt.umc.feature.CustomView.CustomCLSGridViewAdapter;
 import stt.umc.feature.CustomView.CustomHistoryListViewAdapter;
 import stt.umc.feature.R;
+import stt.umc.feature.Request.ClinicalMedicalTicketRequest;
+import stt.umc.feature.Request.HistoryRequest;
+import stt.umc.feature.Request.PatientRequest;
+import stt.umc.feature.Request.TicketInformationRequest;
+
+import static stt.umc.feature.Utils.GlobalUtils.getHistory;
+import static stt.umc.feature.Utils.GlobalUtils.getTicket;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -21,9 +35,7 @@ import stt.umc.feature.R;
  * create an instance of this fragment.
  */
 public class HistoryFragment extends Fragment {
-    private String[] nameVictimHistory = {"Huỳnh Thị Lưu", "Cao Văn Sang"};
-    private String[] scanTime = {"Tháng 2 năm 2019", "Tháng 3 năm 2019"};
-    private Integer[] oldVictimHistory ={45,15};
+
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -66,13 +78,14 @@ public class HistoryFragment extends Fragment {
         }
     }
 
+    private ListView listView;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_history, container, false);
-        ListView listView = view.findViewById(R.id.historyLv);
-        CustomHistoryListViewAdapter customHistoryListViewAdapter = new CustomHistoryListViewAdapter(view.getContext(),nameVictimHistory,scanTime,oldVictimHistory);
-        listView.setAdapter(customHistoryListViewAdapter);
+        listView = view.findViewById(R.id.historyLv);
+
         // Inflate the layout for this fragment
         return view;
     }
@@ -114,5 +127,46 @@ public class HistoryFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    public void onReceivingData(String data){
+        String sb = data;
+        JSONObject json = null;
+        try {
+            json = new JSONObject(sb.substring(1, sb.length() - 1));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        PatientRequest patientRequest;
+        patientRequest = new PatientRequest(json);
+
+
+        //
+        //set profile view
+        String url = "https://fit-umc-stt.azurewebsites.net/history/" + patientRequest.getPatientID();
+        //String testUrl = "https://fit-umc-stt.azurewebsites.net/patient/thongtinkhambenh/BN21677";
+        StringBuilder historyBuilder = getHistory(url);
+        String history = new String(historyBuilder);
+        JSONArray jsonHistory = null;
+        try {
+            jsonHistory = new JSONArray(history);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        String[] nameVictimHistory = new String[jsonHistory.length()];
+        String[] scanTime =new String[jsonHistory.length()];
+        Integer[] ageVictimHistory =new Integer[jsonHistory.length()];
+        for (int i =0;i<jsonHistory.length();i++){
+            try {
+                HistoryRequest historyRequest = new HistoryRequest(jsonHistory.getJSONObject(i));
+                nameVictimHistory[i] = historyRequest.getHoTen();
+                scanTime[i] = historyRequest.getIdHistory();
+                ageVictimHistory[i] = historyRequest.getTuoi();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        CustomHistoryListViewAdapter customHistoryListViewAdapter = new CustomHistoryListViewAdapter(getContext(),nameVictimHistory,scanTime,ageVictimHistory);
+        listView.setAdapter(customHistoryListViewAdapter);
     }
 }

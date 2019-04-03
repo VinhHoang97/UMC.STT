@@ -145,6 +145,9 @@ public class Home extends AppCompatActivity implements HomeFragment.OnFragmentIn
             if(profileFragment != null ) {
                 ((ProfileFragment) profileFragment).onReceivingData(data);
             }
+            if(historyFragment!= null){
+                ((HistoryFragment) historyFragment).onReceivingData(data);
+            }
         }
     }
 

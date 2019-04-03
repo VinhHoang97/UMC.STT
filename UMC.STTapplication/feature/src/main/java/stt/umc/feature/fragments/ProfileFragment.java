@@ -17,12 +17,10 @@ import android.widget.TextView;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import stt.umc.feature.DatLichKhamActivity;
+import stt.umc.feature.Booking;
 import stt.umc.feature.Home;
 import stt.umc.feature.R;
 import stt.umc.feature.Request.PatientRequest;
-import stt.umc.feature.Utils.GlobalUtils;
-import stt.umc.feature.interfaces.DialogCallback;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -101,11 +99,10 @@ public class ProfileFragment extends Fragment {
          tvGender = view.findViewById(R.id.tvGender);
          buttonDatlich = view.findViewById(R.id.btnDatLich);
          btnLogout = view.findViewById(R.id.btnLogout);
-
         buttonDatlich.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getActivity(), DatLichKhamActivity.class));
+                startActivity(new Intent(getActivity(), Booking.class));
             }
         });
 
@@ -121,7 +118,7 @@ public class ProfileFragment extends Fragment {
 
                     }
                 });*/
-                //getActivity().finish();
+                getActivity().getApplication().onTerminate();
             }
         });
 

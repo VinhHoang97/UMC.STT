@@ -1,6 +1,7 @@
 package stt.umc.feature.Request;
 
 import android.util.JsonReader;
+import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -117,27 +118,31 @@ public class PatientRequest {
     }
 
     public PatientRequest(JSONObject jsonObject) {
-        try {
-            this.patientID = jsonObject.getString("ID");
-            FirstName = jsonObject.getString("Ten");
-            LastName = jsonObject.getString("Ho");
-            ;
-            MiddleName = jsonObject.getString("TenLot");
-            ;
-            this.patientBirthday = jsonObject.getString("NgaySinh");
-            HomeTown = jsonObject.getString("QueQuan");
-            ;
-            this.gender = jsonObject.getString("GioiTinh");
-            ;
-            this.profession = jsonObject.getString("NgheNghiep");
-            ;
-            this.phoneNumber = jsonObject.getString("SDT");
-            ;
-            this.address = jsonObject.getString("Diachi");
-            ;
+        if (jsonObject != null) {
+            try {
+                this.patientID = jsonObject.getString("ID");
+                FirstName = jsonObject.getString("Ten");
+                LastName = jsonObject.getString("Ho");
+                ;
+                MiddleName = jsonObject.getString("TenLot");
+                ;
+                this.patientBirthday = jsonObject.getString("NgaySinh");
+                HomeTown = jsonObject.getString("QueQuan");
+                ;
+                this.gender = jsonObject.getString("GioiTinh");
+                ;
+                this.profession = jsonObject.getString("NgheNghiep");
+                ;
+                this.phoneNumber = jsonObject.getString("SDT");
+                ;
+                this.address = jsonObject.getString("Diachi");
+                ;
 
-        } catch (JSONException e) {
-            e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }else{
+            //
         }
     }
 }
