@@ -1,11 +1,5 @@
 package stt.umc.feature;
 
-import android.app.AlarmManager;
-import android.app.Application;
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
@@ -14,28 +8,20 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.SparseArray;
 import android.view.MenuItem;
 
 import com.google.android.gms.vision.barcode.Barcode;
 
-import java.util.Calendar;
 import java.util.List;
 
 import info.androidhive.barcode.BarcodeReader;
-import stt.umc.feature.Request.PatientRequest;
 import stt.umc.feature.fragments.HistoryFragment;
 import stt.umc.feature.fragments.HomeFragment;
 import stt.umc.feature.fragments.ProfileFragment;
 import stt.umc.feature.fragments.SearchFragment;
 import stt.umc.feature.fragments.SettingFragment;
-import stt.umc.feature.receiver.AlarmReceiver;
-
-import static stt.umc.feature.MyNotificationChannel.CHANNEL_ON_TIME;
 
 public class Home extends AppCompatActivity implements HomeFragment.OnFragmentInteractionListener, HistoryFragment.OnFragmentInteractionListener, ProfileFragment.OnFragmentInteractionListener, SearchFragment.OnFragmentInteractionListener, BarcodeReader.BarcodeReaderListener, SettingFragment.OnFragmentInteractionListener {
 
@@ -44,7 +30,7 @@ public class Home extends AppCompatActivity implements HomeFragment.OnFragmentIn
      public final static Boolean NOT_LOGIN = false;
      Fragment settingFragment = new SettingFragment();
      Fragment homeFragment = new HomeFragment();
-     Fragment searchFragment = new SearchFragment();
+     SearchFragment searchFragment = new SearchFragment();
      Fragment historyFragment = new HistoryFragment();
      Fragment profileFragment  = new ProfileFragment();
      FragmentManager mFragmentManager = getSupportFragmentManager();
@@ -70,7 +56,6 @@ public class Home extends AppCompatActivity implements HomeFragment.OnFragmentIn
         //set homepage
         mFragmentManager.beginTransaction().add(R.id.frame_container,homeFragment, "1").commit();
 
-        //
         HomeActivity = this;
     }
 
@@ -111,7 +96,7 @@ public class Home extends AppCompatActivity implements HomeFragment.OnFragmentIn
 
     @Override
     public void onScanned(Barcode barcode) {
-
+        searchFragment.mSearchFragment.onScanned(barcode);
     }
 
     @Override

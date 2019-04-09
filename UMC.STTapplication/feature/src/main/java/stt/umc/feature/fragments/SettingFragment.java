@@ -93,7 +93,7 @@ public class SettingFragment extends Fragment {
                 "10 phút",
                 "30 phút",
                 "60 phút"};
-        ArrayAdapter<String> adapterTimeOut = new ArrayAdapter<String>
+        ArrayAdapter<String> adapterTimeOut = new ArrayAdapter<>
                 (
                         getActivity(),
                         R.layout.m_spinner_item,

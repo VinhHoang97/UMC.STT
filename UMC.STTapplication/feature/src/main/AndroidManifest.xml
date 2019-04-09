@@ -6,8 +6,9 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.VIBRATE" />
-
+    <uses-permission android:name="android.permission.SET_ALARM" />
+    
+    
     <application android:name=".MyNotificationChannel">
         <activity android:name=".Booking"></activity>
         <activity
@@ -27,7 +28,20 @@
             </intent-filter>
         </activity>
         <activity android:name=".ScanActivity">
-            <intent-filter android:order="1">
+            <intent-filter android:order="2">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data
+                    android:host="UMC.STT"
+                    android:pathPattern="/.*"
+                    android:scheme="https" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".SearchedPatientActivity">
+            <intent-filter android:order="3">
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.BROWSABLE" />
@@ -40,11 +54,12 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name=".MyAlarmReceiver">
+        <receiver android:name=".receiver.MyAlarmReceiver" android:enabled="true" android:exported="false">
             <intent-filter>
                 <action android:name="com.example.helloandroid.alarms" />
             </intent-filter>
         </receiver>
+
     </application>
 
 </manifest>

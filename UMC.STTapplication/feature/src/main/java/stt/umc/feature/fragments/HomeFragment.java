@@ -1,5 +1,6 @@
 package stt.umc.feature.fragments;
 
+import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -8,7 +9,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,17 +20,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Calendar;
-import java.util.HashSet;
-import java.util.Set;
 
 import stt.umc.feature.CustomView.CustomCLSGridViewAdapter;
-import stt.umc.feature.Home;
 import stt.umc.feature.R;
 import stt.umc.feature.Request.ClinicalMedicalTicketRequest;
 import stt.umc.feature.Request.PatientRequest;
 import stt.umc.feature.Request.TicketInformationRequest;
+import stt.umc.feature.receiver.MyAlarmReceiver;
 
-import static stt.umc.feature.MyNotificationChannel.CHANNEL_ON_TIME;
 import static stt.umc.feature.Utils.GlobalUtils.getTicket;
 
 /**
@@ -42,9 +39,9 @@ import static stt.umc.feature.Utils.GlobalUtils.getTicket;
  * create an instance of this fragment.
  */
 public class HomeFragment extends Fragment {
+    public static HomeFragment homeFragment;
+    public static NotificationManagerCompat notificationManager;
 
-    public NotificationManagerCompat notificationManager;
-    SharedPreferences sharedPreferences;
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -91,6 +88,7 @@ public class HomeFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
         notificationManager = NotificationManagerCompat.from(getContext());
+        homeFragment = this;
     }
 
     private View mGridView;
@@ -251,6 +249,8 @@ public class HomeFragment extends Fragment {
         tvCurrentNumber.setText(String.format(cmTicketRequest.getRoomCurrentNumber().toString()));
         tvYourNumber.setText(String.format(cmTicketRequest.getRoomCurrentNumber().toString()));
         tvTime.setText(cmTicketRequest.getExpectedTime());
+
+        String[] mSplitString= cmTicketRequest.getExpectedTime().split(":");
         CustomCLSGridViewAdapter customCLSGridViewAdapter = new CustomCLSGridViewAdapter(this.getContext(),
                 clsRoom,
                 clsName,
@@ -258,54 +258,24 @@ public class HomeFragment extends Fragment {
                 clsYourNumber,
                 clsTime);
         ((GridView) mGridView).setAdapter(customCLSGridViewAdapter);
-
-        //Call set up notification
-        sharedPreferences = this.getActivity().getSharedPreferences("SETTING", Context.MODE_PRIVATE);
-        final SharedPreferences.Editor editor = sharedPreferences.edit();
-        String time_out = sharedPreferences.getString("time_out","");
-        String repeat = sharedPreferences.getString("repeat","");
-        String ring_tone = sharedPreferences.getString("ring_tone_uri","");
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.MINUTE,2);
-        long occur = calendar.getTimeInMillis();
-        onSetUpNotification(Uri.parse(ring_tone),repeat,time_out,true,true,occur);
         onLoadingDataComplete(true);
-    }
 
+        SharedPreferences sharedPreferences;
+        //Call set up notification
+        sharedPreferences = getContext().getSharedPreferences("SETTING", Context.MODE_PRIVATE);
+        final SharedPreferences.Editor editor = sharedPreferences.edit();
+        String time_out = sharedPreferences.getString("time_out","0");
 
-    //Set up notification when getting data
-    public void onSetUpNotification(Uri ringTone,
-                                    String repeat,
-                                    String time_out,
-                                    boolean vibrate,
-                                    boolean notifi,
-                                    long occur) {
-        //creating and assigning value to alarm manager class
-        if (vibrate) {
-            Intent activityIntent = new Intent(getContext(), Home.class);
-            PendingIntent contentIntent = PendingIntent.getActivity(getContext(), 0, activityIntent, 0);
-
-            NotificationCompat.Builder notification = new NotificationCompat.Builder(getContext(), CHANNEL_ON_TIME);
-            notification.setSmallIcon(R.drawable.umc_logo)
-                    .setContentIntent(contentIntent)
-                    .setContentTitle("On Time")
-                    .setContentText("Còn " + time_out+ " đến giờ khám")
-                    .setVibrate(new long[]{1000, 1000, 1000,1000 ,1000})
-                    .setPriority(NotificationCompat.PRIORITY_HIGH)
-                    .setCategory(NotificationCompat.CATEGORY_MESSAGE)
-                    .setAutoCancel(true)
-                    .setSound(ringTone)
-                    .setWhen(occur)
-                    .setShowWhen(true);
-            notificationManager.notify(1, notification.build());
-        }
-
-       /* Calendar Alarm = Calendar.getInstance();
-        Alarm.set(Calendar.HOUR_OF_DAY,17);
-        Alarm.set(Calendar.MINUTE, 35);
-        Intent AlarmIntent = new Intent(thi, AlarmReceiver.class);
-        AlarmManager AlmMgr = (AlarmManager)getSystemService(ALARM_SERVICE);
-        PendingIntent Sender = PendingIntent.getBroadcast(Home.this, 0, AlarmIntent, 0);
-        AlmMgr.set(AlarmManager.RTC_WAKEUP, Alarm.getTimeInMillis(), Sender);*/
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, Integer.parseInt(mSplitString[0]));
+        //calendar.set(Calendar.HOUR_OF_DAY, 15);
+        calendar.set(Calendar.MINUTE, Integer.parseInt(mSplitString[1]));
+        //calendar.set(Calendar.MINUTE, 22);
+        Intent notifyIntent = new Intent(getContext(), MyAlarmReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast
+                (getContext(), 100, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        AlarmManager alarmManager = (AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE);
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis() - Integer.parseInt(time_out.split(" ")[0])*60*1000
+                , pendingIntent);
     }
 }

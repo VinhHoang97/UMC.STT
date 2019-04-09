@@ -33,7 +33,7 @@ import stt.umc.feature.Utils.GlobalUtils;
  */
 public class SearchFragment extends Fragment implements BarcodeReader.BarcodeReaderListener {
     BarcodeReader barcodeReader;
-
+    public static SearchFragment mSearchFragment;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -74,7 +74,7 @@ public class SearchFragment extends Fragment implements BarcodeReader.BarcodeRea
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
             }
-        barcodeReader =(BarcodeReader) getChildFragmentManager().findFragmentById(R.id.barcode_scanner_2);
+        mSearchFragment = this;
     }
 
 
@@ -84,6 +84,7 @@ public class SearchFragment extends Fragment implements BarcodeReader.BarcodeRea
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_search, container, false);
+        barcodeReader =(BarcodeReader) getChildFragmentManager().findFragmentById(R.id.barcode_scanner_2);
         return view;
 
     }
@@ -118,18 +119,19 @@ public class SearchFragment extends Fragment implements BarcodeReader.BarcodeRea
         GlobalUtils.getPatientHttpMethod(urlString, new ConnectionAsync.httpRequestListener() {
             @Override
             public void onRecevie(String data) {
-                if (Home.HomeActivity != null) {
-                    ((Home) Home.HomeActivity).onReceiveDataHttp(data);
+                if (SearchedPatientActivity.searchedPatientActivity != null) {
+                    (SearchedPatientActivity.searchedPatientActivity).onReceivingData(data);
                 }
             }
-
             @Override
             public void onFailed() {
-                if (Home.HomeActivity != null) {
-                    ((Home) Home.HomeActivity).onFailData();
+                if (SearchedPatientActivity.searchedPatientActivity != null) {
+                    (SearchedPatientActivity.searchedPatientActivity).onFailData();
                 }
             }
         });
+        Intent intent = new Intent(getContext(), SearchedPatientActivity.class);
+        startActivity(intent);
     }
 
     @Override
