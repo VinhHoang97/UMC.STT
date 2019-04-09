@@ -24,7 +24,7 @@ public class MyAlarmReceiver extends BroadcastReceiver {
         final SharedPreferences.Editor editor = sharedPreferences.edit();
         String time_out = sharedPreferences.getString("time_out","");
         String repeat = sharedPreferences.getString("repeat","");
-        String ring_tone = sharedPreferences.getString("ring_tone_uri","content://media/internal/audio/media/417");
+        String ring_tone = sharedPreferences.getString("ring_tone_uri","");
         onSetUpNotification(Uri.parse(ring_tone),repeat,time_out,true,context);
     }
 

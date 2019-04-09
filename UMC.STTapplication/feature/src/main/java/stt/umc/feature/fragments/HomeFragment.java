@@ -5,21 +5,25 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.NotificationManagerCompat;
+import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Calendar;
+import java.util.concurrent.TimeUnit;
 
 import stt.umc.feature.CustomView.CustomCLSGridViewAdapter;
 import stt.umc.feature.R;
@@ -96,11 +100,12 @@ public class HomeFragment extends Fragment {
     private View mHomeContent;
     private View mLoadingProgress;
 
-
+    private LinearLayout linearLayouLS;
     private TextView tvPhongKham;
     private TextView tvCurrentNumber;
     private TextView tvTime;
     private TextView tvYourNumber;
+    private TextView tvWaitTime;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -114,6 +119,8 @@ public class HomeFragment extends Fragment {
         tvCurrentNumber = view.findViewById(R.id.currentNumber);
         tvTime = view.findViewById(R.id.idThoiGianDuKien);
         tvYourNumber = view.findViewById(R.id.yourNumber);
+        tvWaitTime = view.findViewById(R.id.waitTime);
+        linearLayouLS = view.findViewById(R.id.homeContent);
         //}
         // Inflate the layout for this fragment
         return view;
@@ -245,12 +252,51 @@ public class HomeFragment extends Fragment {
             clsTime[i] = informationRequest.getCangLamSang().get(i).getExpectedTime();
             clsName[i] = informationRequest.getCangLamSang().get(i).getFunctionalName();
         }
+
+        String[] mSplitString = cmTicketRequest.getExpectedTime().split(":");
+
+        SharedPreferences sharedPreferences;
+        //Call set up notification
+        sharedPreferences = getContext().getSharedPreferences("SETTING", Context.MODE_PRIVATE);
+        final SharedPreferences.Editor editor = sharedPreferences.edit();
+        String time_out = sharedPreferences.getString("time_out", "0");
+        Calendar calendarCurrent = Calendar.getInstance();
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, Integer.parseInt(mSplitString[0]));
+        //calendar.set(Calendar.HOUR_OF_DAY, 15);
+        calendar.set(Calendar.MINUTE, Integer.parseInt(mSplitString[1]));
+        //calendar.set(Calendar.MINUTE, 22);
         tvPhongKham.setText(cmTicketRequest.getRoomID());
         tvCurrentNumber.setText(String.format(cmTicketRequest.getRoomCurrentNumber().toString()));
         tvYourNumber.setText(String.format(cmTicketRequest.getRoomCurrentNumber().toString()));
         tvTime.setText(cmTicketRequest.getExpectedTime());
+        long longMilli = 0;
+        long longMinute = 0;
+        long longHour = 0;
+        String waitTimeText;
+        if (calendarCurrent.compareTo(calendar) <= 0) {
+            longMilli = calendarCurrent.getTimeInMillis() - calendar.getTimeInMillis();
+            longMinute = (longMilli/1000)/60;
+            longHour = longMinute/60;
+            longMinute = longMinute%60;
+            waitTimeText= String.valueOf(longHour)+" giờ "+String.valueOf(longMinute) +" phút tới giờ khám";
+            Intent notifyIntent = new Intent(getContext(), MyAlarmReceiver.class);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast
+                    (getContext(), 100, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+            AlarmManager alarmManager = (AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE);
+            alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis() - Integer.parseInt(time_out.split(" ")[0]) * 60 * 1000
+                    , pendingIntent);
+        } else {
+            waitTimeText = "Đã quá giờ khám";
+            int color = 0;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                color = Color.argb(0.5f,0f,0f,0f);
+            }
+            linearLayouLS.setVisibility(View.VISIBLE);
+            linearLayouLS.setBackgroundColor(color);
+        }
+        tvWaitTime.setText(waitTimeText);
 
-        String[] mSplitString= cmTicketRequest.getExpectedTime().split(":");
         CustomCLSGridViewAdapter customCLSGridViewAdapter = new CustomCLSGridViewAdapter(this.getContext(),
                 clsRoom,
                 clsName,
@@ -259,23 +305,5 @@ public class HomeFragment extends Fragment {
                 clsTime);
         ((GridView) mGridView).setAdapter(customCLSGridViewAdapter);
         onLoadingDataComplete(true);
-
-        SharedPreferences sharedPreferences;
-        //Call set up notification
-        sharedPreferences = getContext().getSharedPreferences("SETTING", Context.MODE_PRIVATE);
-        final SharedPreferences.Editor editor = sharedPreferences.edit();
-        String time_out = sharedPreferences.getString("time_out","0");
-
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, Integer.parseInt(mSplitString[0]));
-        //calendar.set(Calendar.HOUR_OF_DAY, 15);
-        calendar.set(Calendar.MINUTE, Integer.parseInt(mSplitString[1]));
-        //calendar.set(Calendar.MINUTE, 22);
-        Intent notifyIntent = new Intent(getContext(), MyAlarmReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast
-                (getContext(), 100, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        AlarmManager alarmManager = (AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE);
-        alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis() - Integer.parseInt(time_out.split(" ")[0])*60*1000
-                , pendingIntent);
     }
 }

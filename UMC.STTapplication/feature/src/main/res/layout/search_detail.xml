@@ -57,7 +57,7 @@
                     android:layout_marginLeft="10dp"
                     android:layout_weight="3"
                     android:textColor="@color/blackText"
-                    android:text="Huỳnh Thị Lưu"
+                    android:text=""
                     android:textSize="20dp" />
 
                 <TextView
@@ -66,7 +66,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="45 tuổi"
+                    android:text=""
                     android:textSize="20dp" />
             </LinearLayout>
 
@@ -87,7 +87,7 @@
                     android:id="@+id/remaingAppointment"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="3"
+                    android:text=""
                     android:textColor="@color/blackText"
                     android:textSize="13dp" />
 
@@ -133,7 +133,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="102"
+                        android:text=""
                         android:textAlignment="center"
                         android:textColor="@color/blackText"
                         android:textSize="30sp"
@@ -164,7 +164,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:text="10:30"
+                        android:text=""
                         android:textAlignment="center"
                         android:textColor="@color/blackText"
                         android:textSize="30sp"
@@ -191,7 +191,7 @@
                     android:id="@+id/searchedPatientCurrNumber"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="2000"
+                    android:text=""
                     android:textAlignment="center"
                     android:textColor="@color/currentNumber"
                     android:textSize="45dp"
@@ -218,7 +218,7 @@
                         android:id="@+id/searchedPatientNumber"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="2014"
+                        android:text=""
                         android:textAlignment="center"
                         android:textColor="@color/blueText"
                         android:textSize="50dp"
