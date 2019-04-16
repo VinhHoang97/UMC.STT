@@ -18,6 +18,7 @@ public class MyAlarmReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        WakeLocker.acquire(context);
         SharedPreferences sharedPreferences;
         //Call set up notification
         sharedPreferences = context.getSharedPreferences("SETTING", Context.MODE_PRIVATE);
@@ -49,6 +50,7 @@ public class MyAlarmReceiver extends BroadcastReceiver {
                     .setSound(ringTone);
             notificationManager.notify(1, notification.build());
         }
+        WakeLocker.release();
     }
 }
 

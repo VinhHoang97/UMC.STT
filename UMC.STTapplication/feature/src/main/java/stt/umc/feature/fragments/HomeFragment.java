@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.NotificationManagerCompat;
@@ -263,9 +264,9 @@ public class HomeFragment extends Fragment {
         Calendar calendarCurrent = Calendar.getInstance();
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.HOUR_OF_DAY, Integer.parseInt(mSplitString[0]));
-        //calendar.set(Calendar.HOUR_OF_DAY, 15);
+        //calendar.set(Calendar.HOUR_OF_DAY, 13);
         calendar.set(Calendar.MINUTE, Integer.parseInt(mSplitString[1]));
-        //calendar.set(Calendar.MINUTE, 22);
+        //calendar.set(Calendar.MINUTE, 43);
         tvPhongKham.setText(cmTicketRequest.getRoomID());
         tvCurrentNumber.setText(String.format(cmTicketRequest.getRoomCurrentNumber().toString()));
         tvYourNumber.setText(String.format(cmTicketRequest.getRoomCurrentNumber().toString()));
@@ -275,27 +276,31 @@ public class HomeFragment extends Fragment {
         long longHour = 0;
         String waitTimeText;
         if (calendarCurrent.compareTo(calendar) <= 0) {
-            longMilli = calendarCurrent.getTimeInMillis() - calendar.getTimeInMillis();
+            longMilli =  calendar.getTimeInMillis()-calendarCurrent.getTimeInMillis();
             longMinute = (longMilli/1000)/60;
             longHour = longMinute/60;
             longMinute = longMinute%60;
+            startTimer(longMilli,1000*60);
             waitTimeText= String.valueOf(longHour)+" giờ "+String.valueOf(longMinute) +" phút tới giờ khám";
-            Intent notifyIntent = new Intent(getContext(), MyAlarmReceiver.class);
-            PendingIntent pendingIntent = PendingIntent.getBroadcast
-                    (getContext(), 100, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-            AlarmManager alarmManager = (AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE);
-            alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis() - Integer.parseInt(time_out.split(" ")[0]) * 60 * 1000
-                    , pendingIntent);
+
         } else {
             waitTimeText = "Đã quá giờ khám";
-            int color = 0;
+            /*int color = 0;
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
                 color = Color.argb(0.5f,0f,0f,0f);
             }
             linearLayouLS.setVisibility(View.VISIBLE);
-            linearLayouLS.setBackgroundColor(color);
+            linearLayouLS.setBackgroundColor(color);*/
         }
         tvWaitTime.setText(waitTimeText);
+
+        Intent notifyIntent = new Intent(getContext(), MyAlarmReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast
+                (getContext(), 100, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        AlarmManager alarmManager = (AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE);
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis() - Integer.parseInt(time_out.split(" ")[0]) * 60 * 1000
+                , pendingIntent);
+
 
         CustomCLSGridViewAdapter customCLSGridViewAdapter = new CustomCLSGridViewAdapter(this.getContext(),
                 clsRoom,
@@ -305,5 +310,37 @@ public class HomeFragment extends Fragment {
                 clsTime);
         ((GridView) mGridView).setAdapter(customCLSGridViewAdapter);
         onLoadingDataComplete(true);
+    }
+
+
+    //Declare timer
+    public static CountDownTimer cTimer = null;
+
+    //start timer function
+    void startTimer(final long milli, long interval) {
+        cTimer = new CountDownTimer(milli, interval) {
+            long longMinute = (milli/1000)/60;
+            long longHour = longMinute/60;
+            long finallongMinute = longMinute%60;
+            public void onTick(long millisUntilFinished) {
+                String waitTimeText= String.valueOf(longHour)+" giờ "+String.valueOf(finallongMinute) +" phút tới giờ khám";
+                tvWaitTime.setText(waitTimeText);
+                finallongMinute -= 1;
+                if(finallongMinute <0) {
+                    cTimer.cancel();
+                }
+            }
+            public void onFinish() {
+            }
+        };
+        cTimer.start();
+    }
+
+
+
+    //cancel timer
+    public void cancelTimer() {
+        if(cTimer!=null)
+            cTimer.cancel();
     }
 }

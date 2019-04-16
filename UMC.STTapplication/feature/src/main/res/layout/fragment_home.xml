@@ -39,6 +39,7 @@
             android:orientation="horizontal"
             android:layout_below="@+id/header"
             android:background="@drawable/shadow">
+
            <!-- <LinearLayout
                 android:id="@+id/stateLayout"
                 android:layout_width="match_parent"
@@ -104,7 +105,7 @@
                         />
                     <TextView
                         android:gravity="center"
-                        android:textColor="@color/blackText"
+                        android:textColor="@color/greyText"
                         android:id="@+id/waitTime"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -157,9 +158,16 @@
                         android:textSize="50dp"
                         android:textStyle="bold"
                         android:textAlignment="center"/>
+                   <!-- <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/icons8_ok_48"
+                        android:layout_gravity="right"
+                        android:visibility="invisible"/>-->
                 </LinearLayout>
 
             </LinearLayout>
+
         </LinearLayout>
 
         <TextView
@@ -167,7 +175,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/homeGrid"
-            android:layout_margin="2dp"
+            android:layout_marginTop="8dp"
+            android:layout_margin="5dp"
             android:text="Vui lòng đến phòng khám đúng giờ"
             android:textSize="15sp"
             android:textAlignment="center"

@@ -15,6 +15,7 @@ import android.view.View;
 
 public class LoginActivity extends AppCompatActivity {
 
+    public static final String APP_TAG = "APP_TAG";
     SharedPreferences sharedPreferences;
     private NotificationCompat.Builder notiBuilder;
     private static final int MY_NOTIFICATION_ID = 12345;

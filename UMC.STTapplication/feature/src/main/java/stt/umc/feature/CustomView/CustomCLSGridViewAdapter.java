@@ -83,22 +83,22 @@ public class CustomCLSGridViewAdapter extends BaseAdapter {
         long longHour = 0;
         String waitTimeText;
         if (calendarCurrent.compareTo(calendar) <= 0) {
-            longMilli = calendarCurrent.getTimeInMillis() - calendar.getTimeInMillis();
+            longMilli =  calendar.getTimeInMillis()- calendarCurrent.getTimeInMillis();
             longMinute = (longMilli/1000)/60;
             longHour = longMinute/60;
             longMinute = longMinute%60;
-            waitTimeText= String.valueOf(longHour)+" giờ "+String.valueOf(longMinute) +" phút tới giờ khám";
-            Intent notifyIntent = new Intent(context, MyAlarmReceiver.class);
-            PendingIntent pendingIntent = PendingIntent.getBroadcast
-                    (context, 100, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-            AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-            alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis() - Integer.parseInt(time_out.split(" ")[0]) * 60 * 1000
-                    , pendingIntent);
+            waitTimeText= String.valueOf(longHour)+":"+String.valueOf(longMinute);
+
         } else {
-            waitTimeText = "Đã quá giờ khám";
+            waitTimeText = "00:00";
         }
         tvClsWaitingTime.setText(waitTimeText);
-
+       /* Intent notifyIntent = new Intent(context, MyAlarmReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast
+                (context, 100, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis() - Integer.parseInt(time_out.split(" ")[0]) * 60 * 1000
+                , pendingIntent);*/
         return convertView;
     }
 }

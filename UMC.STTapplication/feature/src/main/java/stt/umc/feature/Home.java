@@ -146,5 +146,9 @@ public class Home extends AppCompatActivity implements HomeFragment.OnFragmentIn
         }
     }
 
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        HomeFragment.homeFragment.cancelTimer();
+    }
 }

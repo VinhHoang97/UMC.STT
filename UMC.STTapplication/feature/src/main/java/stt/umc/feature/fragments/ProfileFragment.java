@@ -19,6 +19,7 @@ import org.json.JSONObject;
 
 import stt.umc.feature.Booking;
 import stt.umc.feature.Home;
+import stt.umc.feature.LoginActivity;
 import stt.umc.feature.R;
 import stt.umc.feature.Request.PatientRequest;
 
@@ -85,20 +86,21 @@ public class ProfileFragment extends Fragment {
     }
 
 
-    TextView tvFullName;
-    TextView tvBirthday;
-    TextView tvGender;
-    Button buttonDatlich;
-    Button btnLogout;
+    private TextView tvFullName;
+    private TextView tvBirthday;
+    private TextView tvGender;
+    private Button buttonDatlich;
+    private Button btnLogout;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_profile, container, false);
-         tvFullName = view.findViewById(R.id.tvFullName);
-         tvBirthday = view.findViewById(R.id.tvBirthday);
-         tvGender = view.findViewById(R.id.tvGender);
-         buttonDatlich = view.findViewById(R.id.btnDatLich);
-         btnLogout = view.findViewById(R.id.btnLogout);
+        tvFullName = view.findViewById(R.id.tvFullName);
+        tvBirthday = view.findViewById(R.id.tvBirthday);
+        tvGender = view.findViewById(R.id.tvGender);
+        buttonDatlich = view.findViewById(R.id.btnDatLich);
+        btnLogout = view.findViewById(R.id.btnLogout);
         buttonDatlich.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -109,7 +111,7 @@ public class ProfileFragment extends Fragment {
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SharedPreferences sharedPreferences = getActivity().getSharedPreferences("LOGIN_STATE",MODE_PRIVATE);
+                SharedPreferences sharedPreferences = getActivity().getSharedPreferences("LOGIN_STATE", MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putBoolean("LOGIN_STATE", Home.NOT_LOGIN);
                 /*GlobalUtils.showRatingDialog(v.getContext(), new DialogCallback() {
@@ -118,7 +120,9 @@ public class ProfileFragment extends Fragment {
 
                     }
                 });*/
-                getActivity().getApplication().onTerminate();
+                Intent intent = new Intent(getContext(), LoginActivity.class);
+                startActivity(intent);
+                getActivity().finish();
             }
         });
 
@@ -167,20 +171,20 @@ public class ProfileFragment extends Fragment {
 
     public void onReceivingData(String data) {
 
-       // Bundle bundle= this.getArguments();
-       // String sb= bundle.getString("patient");
+        // Bundle bundle= this.getArguments();
+        // String sb= bundle.getString("patient");
         String sb = data;
         JSONObject json = null;
         try {
-            json = new JSONObject(sb.substring(1,sb.length()-1));
+            json = new JSONObject(sb.substring(1, sb.length() - 1));
         } catch (JSONException e) {
             e.printStackTrace();
         }
         PatientRequest patientRequest = new PatientRequest(json);
         //set profile view
-        tvFullName.setText(patientRequest.getLastName()+" " + patientRequest.getMiddleName()+" "+patientRequest.getFirstName());
-        String birthday[] = patientRequest.getPatientBirthday().substring(0,10).split("-");
-        tvBirthday.setText(birthday[2]+"/"+birthday[1]+"/"+birthday[0]);
+        tvFullName.setText(patientRequest.getLastName() + " " + patientRequest.getMiddleName() + " " + patientRequest.getFirstName());
+        String birthday[] = patientRequest.getPatientBirthday().substring(0, 10).split("-");
+        tvBirthday.setText(birthday[2] + "/" + birthday[1] + "/" + birthday[0]);
         tvGender.setText(patientRequest.getGender());
 
 

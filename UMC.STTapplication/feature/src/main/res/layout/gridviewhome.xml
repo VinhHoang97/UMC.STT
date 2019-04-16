@@ -2,11 +2,13 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/whiteBackground"
+    android:background="@drawable/white_border"
     android:orientation="vertical"
     android:padding="3dp"
-    android:layout_margin="10dp">
+    android:layout_margin="10dp"
+    android:elevation="5dp">
     <TextView
+        android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/clsName"
@@ -14,6 +16,7 @@
         android:textStyle="bold"
         android:textSize="18sp"/>
     <LinearLayout
+        android:padding="2dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -36,6 +39,7 @@
             />
     </LinearLayout>
     <LinearLayout
+        android:padding="2dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -60,12 +64,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/waitClsTime"
-            android:textColor="@color/blackText"
+            android:textColor="@color/greyText"
             android:layout_weight="1"
             android:textAlignment="center"
             android:gravity="right"/>
     </LinearLayout>
     <LinearLayout
+        android:padding="2dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -86,6 +91,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:padding="2dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"

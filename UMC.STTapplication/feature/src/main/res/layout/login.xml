@@ -37,7 +37,8 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="78dp"
-        android:background="@drawable/icons8_barcode_scanner_64" />
+        android:background="@drawable/icons8_barcode_scanner_64"
+        android:elevation="5dp"/>
 
 
 </RelativeLayout>
